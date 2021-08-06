@@ -4,7 +4,9 @@ version = "0.1.0"
 edition = "2018"
 
 [dependencies]
-sowngwala = { git = "https://github.com/minagawah/sowngwala", version = "0.1.0" }
+lazy_static = "1.4.0"
+serde = { version = "1.0.127", features = ["derive"] }
+sowngwala = { git = "https://github.com/minagawah/sowngwala", version = "0.3.0" }
 
 [dev-dependencies]
 approx_eq = "0.1.8"
