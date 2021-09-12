@@ -321,7 +321,7 @@ lazy_static! {
     // Combination of Stems (10) and Branches (12) which makes 60 patterns.
     pub static ref GANZHI_SEXAGESIMAL: Vec<(usize, usize)> = {
         let mut v = vec![];
-        for i in 0..59 {
+        for i in 0..60 {
             let stem = (i % 10) as usize;
             let branch = (i % 12) as usize;
             v.push((stem, branch));

@@ -2,7 +2,6 @@
 use sowngwala::time::Month;
 
 use serde::{ Deserialize, Serialize };
-
 use sowngwala::time::{
     Date,
     Time,
@@ -164,6 +163,7 @@ fn _year_ganzhi(ut: Box<DateTime>) -> GanZhi<'static> {
 }
 
 /// Month Ganzhi
+#[allow(clippy::boxed_local)]
 fn _month_ganzhi(ut: Box<DateTime>, year_stem_no: u8) -> GanZhi<'static> {
     let lng: f64 = longitude_of_the_sun_from_date(&Date::from(&*ut));
 
@@ -220,9 +220,11 @@ fn _month_ganzhi(ut: Box<DateTime>, year_stem_no: u8) -> GanZhi<'static> {
 }
 
 /// Day Ganzhi
+#[allow(clippy::boxed_local)]
 fn _day_ganzhi(ut: Box<DateTime>) -> GanZhi<'static> {
     let mjd: f64 = modified_julian_day_from_ut(&*ut);
     let index = ((mjd - 10.0) % 60.0).floor() as usize;
+    
     let (stem_id, branch_id) = GANZHI_SEXAGESIMAL[index];
 
     GanZhi {
@@ -232,6 +234,7 @@ fn _day_ganzhi(ut: Box<DateTime>) -> GanZhi<'static> {
 }
 
 /// Hour Ganzhi
+#[allow(clippy::boxed_local)]
 fn _hour_ganzhi(t: Box<Time>, day_stem_no: u8) -> GanZhi<'static> {
     // The branch is easily found by looking at the hour range of the day.
     let branch_id: usize = if t.hour == 23 || t.hour == 0 {
