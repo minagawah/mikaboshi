@@ -34,13 +34,13 @@ pub struct Branch {
     pub name: Language,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
 pub struct GanZhi<'a> {
     pub stem: &'a Stem,
     pub branch: &'a Branch,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
 pub struct Bazi<'a> {
     pub year: GanZhi<'a>,
     pub month: GanZhi<'a>,
