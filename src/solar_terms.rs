@@ -1,6 +1,6 @@
-use sowngwala::time::{ Month, Date, add_date };
+use sowngwala::time::{add_date, Date, Month};
 
-use crate::language::{ Language, LanguageTrait };
+use crate::language::{Language, LanguageTrait};
 use crate::utils::longitude_of_the_sun_from_date;
 
 #[derive(Debug)]
@@ -48,7 +48,11 @@ pub fn get_last_term(date: &Date) -> (f64, Date) {
 /// * `date` - &Date
 #[allow(clippy::many_single_char_names)]
 pub fn get_lichun(year: i16) -> Date {
-    let d: Date = Date { year, month: Month::Feb, day: 6.0 };
+    let d: Date = Date {
+        year,
+        month: Month::Feb,
+        day: 6.0,
+    };
     let (_lng, lichun) = get_last_term(&d);
     lichun
 }

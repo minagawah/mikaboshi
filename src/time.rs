@@ -1,13 +1,8 @@
 #[cfg(test)]
 extern crate approx_eq;
 
-pub use sowngwala::time::{
-    Month,
-    Date,
-    Time,
-    DateTime,
-};
 use sowngwala::time::eot_fortified_ut_from_local;
+pub use sowngwala::time::{Date, DateTime, Month, Time};
 
 pub fn ut_from_local(&dt: &DateTime, zone: i8) -> DateTime {
     eot_fortified_ut_from_local(&dt, zone)
@@ -41,8 +36,7 @@ mod tests {
         assert_eq!(ut.min, 57);
         assert_approx_eq!(
             ut.sec, // 17.137797474861145,
-            17.13779,
-            1e-6
+            17.13779, 1e-6
         );
     }
 }

@@ -1,23 +1,13 @@
 #[cfg(test)]
 use sowngwala::time::Month;
 
-use serde::{ Deserialize, Serialize };
+use serde::{Deserialize, Serialize};
 use sowngwala::time::{
-    Date,
-    Time,
-    DateTime,
-    julian_day,
-    julian_day_from_ut,
-    modified_julian_day_from_ut,
+    julian_day, julian_day_from_ut, modified_julian_day_from_ut, Date, DateTime, Time,
 };
 
-use crate::constants::{
-    HOUR_STEM_TABLE,
-    GANZHI_SEXAGESIMAL,
-    STEMS,
-    BRANCHES,
-};
-use crate::language::{ Language, LanguageTrait };
+use crate::constants::{BRANCHES, GANZHI_SEXAGESIMAL, HOUR_STEM_TABLE, STEMS};
+use crate::language::{Language, LanguageTrait};
 use crate::solar_terms::get_lichun;
 use crate::time::ut_from_local;
 use crate::utils::longitude_of_the_sun_from_date;
@@ -64,41 +54,24 @@ impl GanZhi<'_> {
     /// Concatenate Stem & Branch (for Chinese characters)
     #[allow(dead_code)]
     fn alphabet(&self) -> String {
-        format!(
-            "{}{}",
-            self.stem.alphabet(),
-            self.branch.alphabet()
-        )
+        format!("{}{}", self.stem.alphabet(), self.branch.alphabet())
     }
 
     /// Concatenate Stem & Branch (for Chinese phonetics)
     #[allow(dead_code)]
     fn phonetic(&self) -> String {
-        format!(
-            "{} {}",
-            self.stem.phonetic(),
-            self.branch.phonetic()
-        )
+        format!("{} {}", self.stem.phonetic(), self.branch.phonetic())
     }
 
     /// Concatenate Stem & Branch (for Japanese characters)
     #[allow(dead_code)]
     fn alphabet_ja(&self) -> String {
-        format!(
-            "{}・{}",
-            self.stem.alphabet_ja(),
-            self.branch.alphabet_ja()
-        )
+        format!("{}・{}", self.stem.alphabet_ja(), self.branch.alphabet_ja())
     }
 }
 
 impl<'a> Bazi<'a> {
-    fn new(
-        year: GanZhi<'a>,
-        month: GanZhi<'a>,
-        day: GanZhi<'a>,
-        hour: GanZhi<'a>
-    ) -> Self {
+    fn new(year: GanZhi<'a>, month: GanZhi<'a>, day: GanZhi<'a>, hour: GanZhi<'a>) -> Self {
         Bazi {
             year,
             month,
@@ -224,7 +197,7 @@ fn _month_ganzhi(ut: Box<DateTime>, year_stem_no: u8) -> GanZhi<'static> {
 fn _day_ganzhi(ut: Box<DateTime>) -> GanZhi<'static> {
     let mjd: f64 = modified_julian_day_from_ut(&*ut);
     let index = ((mjd - 10.0) % 60.0).floor() as usize;
-    
+
     let (stem_id, branch_id) = GANZHI_SEXAGESIMAL[index];
 
     GanZhi {

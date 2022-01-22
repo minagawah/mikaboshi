@@ -109,6 +109,11 @@ println!("時: {} ({})", hour.alphabet(), hour.alphabet_ja());
 // 時: 癸未 (みずのと・ひつじ)
 ```
 
+## Test
+
+```
+RUST_BACKTRACE=1 cargo test -vv -- --nocapture
+```
 
 ## Dislaimer
 
