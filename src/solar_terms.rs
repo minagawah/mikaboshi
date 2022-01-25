@@ -24,22 +24,25 @@ pub fn get_last_term(date: &Date) -> (f64, Date) {
     //   317.435511 --> 315.0
     let target = (lng_0 / 15.0).abs().floor() * 15.0;
 
-    let mut d = Date {
+    let mut next = Date {
         year: date.year,
         month: date.month,
         day: date.day,
     };
 
+    let mut prev: Option<Date> = None;
     let mut term: Option<Date> = None;
 
     // Go back by one day a time.
     while term.is_none() {
-        let lng: f64 = longitude_of_the_sun_from_date(&d);
+        let lng: f64 = longitude_of_the_sun_from_date(&next);
         // See if the target falls in the current date.
         if lng <= target && lng > (target - 1.0) {
-            term = Some(d);
+            term = prev;
+        } else {
+            prev = Some(next.clone());
+            next = add_date(&next, -1.0);
         }
-        d = add_date(&d, -1.0);
     }
     (target, term.unwrap())
 }
@@ -55,4 +58,24 @@ pub fn get_lichun(year: i16) -> Date {
     };
     let (_lng, lichun) = get_last_term(&d);
     lichun
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn check_get_last_term() {
+        let date = Date {
+            year: 2022,
+            month: Month::Feb,
+            day: 6.0,
+        };
+
+        let (_lng, term) = get_last_term(&date);
+
+        assert_eq!(term.year, 2022);
+        assert_eq!(term.month, Month::Feb);
+        assert_eq!(term.day, 4.0);
+    }
 }
