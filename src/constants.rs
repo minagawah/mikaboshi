@@ -8,7 +8,6 @@ use crate::solar_terms::SolarTerm;
 pub struct LanguageData {
     pub en: String,
     pub ja: Vec<String>,
-    pub ja2: Vec<String>,
     pub vi: Vec<String>,
     pub zh_cn: Vec<String>,
     pub zh_tw: Vec<String>,
@@ -47,7 +46,6 @@ lazy_static! {
                 name: Language {
                     en: item.name.en,
                     ja: LanguageDetails::new(&item.name.ja[0], &item.name.ja[1]),
-                    ja2: LanguageDetails::new(&item.name.ja2[0], &item.name.ja2[1]),
                     vi: LanguageDetails::new(&item.name.vi[0], &item.name.vi[1]),
                     zh_cn: LanguageDetails::new(&item.name.zh_cn[0], &item.name.zh_cn[1]),
                     zh_tw: LanguageDetails::new(&item.name.zh_tw[0], &item.name.zh_tw[1]),
@@ -81,7 +79,6 @@ lazy_static! {
                 name: Language {
                     en: item.name.en,
                     ja: LanguageDetails::new(&item.name.ja[0], &item.name.ja[1]),
-                    ja2: LanguageDetails::new(&item.name.ja2[0], &item.name.ja2[1]),
                     vi: LanguageDetails::new(&item.name.vi[0], &item.name.vi[1]),
                     zh_cn: LanguageDetails::new(&item.name.zh_cn[0], &item.name.zh_cn[1]),
                     zh_tw: LanguageDetails::new(&item.name.zh_tw[0], &item.name.zh_tw[1]),
@@ -104,7 +101,6 @@ lazy_static! {
                 name: Language {
                     en: item.name.en,
                     ja: LanguageDetails::new(&item.name.ja[0], &item.name.ja[1]),
-                    ja2: LanguageDetails::new(&item.name.ja2[0], &item.name.ja2[1]),
                     vi: LanguageDetails::new(&item.name.vi[0], &item.name.vi[1]),
                     zh_cn: LanguageDetails::new(&item.name.zh_cn[0], &item.name.zh_cn[1]),
                     zh_tw: LanguageDetails::new(&item.name.zh_tw[0], &item.name.zh_tw[1]),

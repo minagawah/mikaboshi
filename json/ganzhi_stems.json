@@ -4,7 +4,6 @@
     "name": {
       "en": "jia",
       "ja": ["きのえ", "kinoe"],
-      "ja2": ["コウ", "kou"],
       "vi": ["giáp", "giap"],
       "zh_cn": ["甲", "jiǎ"],
       "zh_tw": ["甲", "jiǎ"]
@@ -15,7 +14,6 @@
     "name": {
       "en": "yi",
       "ja": ["きのと", "kinoto"],
-      "ja2": ["オツ", "otsu"],
       "vi": ["ất", "ất"],
       "zh_cn": ["乙", "yǐ"],
       "zh_tw": ["乙", "yǐ"]
@@ -26,7 +24,6 @@
     "name": {
       "en": "bing",
       "ja": ["ひのえ", "hinoe"],
-      "ja2": ["ヘイ", "hei"],
       "vi": ["bính", "bính"],
       "zh_cn": ["丙", "bǐng"],
       "zh_tw": ["丙", "bǐng"]
@@ -37,7 +34,6 @@
     "name": {
       "en": "ding",
       "ja": ["ひのと", "hinoto"],
-      "ja2": ["テイ", "tei"],
       "vi": ["đinh", "đinh"],
       "zh_cn": ["丁", "dīng"],
       "zh_tw": ["丁", "dīng"]
@@ -48,7 +44,6 @@
     "name": {
       "en": "wu",
       "ja": ["つちのえ", "tsuchinoe"],
-      "ja2": ["ボ", "bo"],
       "vi": ["mậu", "mậu"],
       "zh_cn": ["戊", "wù"],
       "zh_tw": ["戊", "wù"]
@@ -59,7 +54,6 @@
     "name": {
       "en": "ji",
       "ja": ["つちのと", "tsuchinoe"],
-      "ja2": ["キ", "ki"],
       "vi": ["kỷ", "kỷ"],
       "zh_cn": ["己", "jǐ"],
       "zh_tw": ["己", "jǐ"]
@@ -70,7 +64,6 @@
     "name": {
       "en": "geng",
       "ja": ["かのえ", "kanoe"],
-      "ja2": ["コウ", "kou"],
       "vi": ["canh", "canh"],
       "zh_cn": ["庚", "gēng"],
       "zh_tw": ["庚", "gēng"]
@@ -81,7 +74,6 @@
     "name": {
       "en": "xin",
       "ja": ["かのと", "kanoto"],
-      "ja2": ["シン", "shin"],
       "vi": ["tân", "tân"],
       "zh_cn": ["辛", "xīn"],
       "zh_tw": ["辛", "xīn"]
@@ -92,7 +84,6 @@
     "name": {
       "en": "ren",
       "ja": ["みずのえ", "mizunoe"],
-      "ja2": ["ジン", "jin"],
       "vi": ["nhâm", "nhâm"],
       "zh_cn": ["壬", "rén"],
       "zh_tw": ["壬", "rén"]
@@ -103,7 +94,6 @@
     "name": {
       "en": "gui",
       "ja": ["みずのと", "mizunoto"],
-      "ja2": ["キ", "ki"],
       "vi": ["quý", "quý"],
       "zh_cn": ["癸", "guǐ"],
       "zh_tw": ["癸", "guǐ"]

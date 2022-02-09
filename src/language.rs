@@ -10,7 +10,6 @@ pub struct LanguageDetails {
 pub struct Language {
     pub en: String,
     pub ja: LanguageDetails,
-    pub ja2: LanguageDetails,
     pub vi: LanguageDetails,
     pub zh_cn: LanguageDetails,
     pub zh_tw: LanguageDetails,

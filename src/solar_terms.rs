@@ -40,7 +40,7 @@ pub fn get_last_term(date: &Date) -> (f64, Date) {
         if lng <= target && lng > (target - 1.0) {
             term = prev;
         } else {
-            prev = Some(next.clone());
+            prev = Some(next);
             next = add_date(&next, -1.0);
         }
     }
