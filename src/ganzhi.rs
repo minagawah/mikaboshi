@@ -7,7 +7,7 @@ use sowngwala::time::{
 };
 
 use crate::constants::{BRANCHES, GANZHI_SEXAGESIMAL, HOUR_STEM_TABLE, STEMS};
-use crate::language::{Language, LanguageTrait};
+use crate::language::{Language, LanguageData, LanguageTrait, NameDataTrait};
 use crate::solar_terms::get_lichun;
 use crate::time::ut_from_local;
 use crate::utils::longitude_of_the_sun_from_date;
@@ -22,6 +22,30 @@ pub struct Stem {
 pub struct Branch {
     pub no: u8,
     pub name: Language,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct StemData {
+    pub no: u8,
+    pub name: LanguageData,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct BranchData {
+    pub no: u8,
+    pub name: LanguageData,
+}
+
+impl NameDataTrait for StemData {
+    fn name(&self) -> Box<LanguageData> {
+        Box::new(self.name.clone())
+    }
+}
+
+impl NameDataTrait for BranchData {
+    fn name(&self) -> Box<LanguageData> {
+        Box::new(self.name.clone())
+    }
 }
 
 #[derive(Debug, Serialize)]

@@ -1,6 +1,7 @@
+use serde::{Deserialize, Serialize};
 use sowngwala::time::{add_date, Date, Month};
 
-use crate::language::{Language, LanguageTrait};
+use crate::language::{Language, LanguageData, LanguageTrait, NameDataTrait};
 use crate::utils::longitude_of_the_sun_from_date;
 
 #[derive(Debug)]
@@ -10,8 +11,21 @@ pub struct SolarTerm {
     pub angle: u16,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SolarTermData {
+    pub id: u8,
+    pub name: LanguageData,
+    pub angle: u16,
+}
+
 impl LanguageTrait for SolarTerm {
     fn name(&self) -> Box<Language> {
+        Box::new(self.name.clone())
+    }
+}
+
+impl NameDataTrait for SolarTermData {
+    fn name(&self) -> Box<LanguageData> {
         Box::new(self.name.clone())
     }
 }

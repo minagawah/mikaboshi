@@ -7,3 +7,4 @@ pub mod language;
 pub mod solar_terms;
 pub mod time;
 pub mod utils;
+pub mod wuxing;

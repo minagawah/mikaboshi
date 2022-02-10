@@ -1,55 +1,26 @@
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize};
 
-use crate::ganzhi::{Branch, Stem};
-use crate::language::{Language, LanguageDetails};
-use crate::solar_terms::SolarTerm;
+use crate::ganzhi::{Stem, Branch, StemData, BranchData};
+use crate::language::NameDataTrait;
+use crate::solar_terms::{SolarTerm, SolarTermData};
+use crate::wuxing::{WuXing, WuXingData};
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct LanguageData {
-    pub en: String,
-    pub ja: Vec<String>,
-    pub vi: Vec<String>,
-    pub zh_cn: Vec<String>,
-    pub zh_tw: Vec<String>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct SolarTermData {
-    pub id: u8,
-    pub name: LanguageData,
-    pub angle: u16,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct StemData {
-    pub no: u8,
-    pub name: LanguageData,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct BranchData {
-    pub no: u8,
-    pub name: LanguageData,
+fn get_json<'a, T: Deserialize<'a>>(json: &'a str) -> Vec<T> {
+    match serde_json::from_str(json) {
+        Ok(json) => json,
+        Err(err) => panic!("Error: {}", err),
+    }
 }
 
 lazy_static! {
     pub static ref SOLAR_TERMS: Vec<SolarTerm> = {
         let json = &include_str!("../json/solar_terms.json");
-        let data: Vec<SolarTermData> = match serde_json::from_str(json) {
-            Ok(json) => json,
-            Err(err) => panic!("Error: {}", err),
-        };
+        let data: Vec<SolarTermData> = get_json::<SolarTermData>(json);
         data.iter().map(|item| {
             let item = item.clone();
             SolarTerm {
                 id: item.id,
-                name: Language {
-                    en: item.name.en,
-                    ja: LanguageDetails::new(&item.name.ja[0], &item.name.ja[1]),
-                    vi: LanguageDetails::new(&item.name.vi[0], &item.name.vi[1]),
-                    zh_cn: LanguageDetails::new(&item.name.zh_cn[0], &item.name.zh_cn[1]),
-                    zh_tw: LanguageDetails::new(&item.name.zh_tw[0], &item.name.zh_tw[1]),
-                },
+                name: item.language_from_data(),
                 angle: item.angle,
             }
         }).collect()
@@ -68,43 +39,36 @@ lazy_static! {
 
     pub static ref STEMS: Vec<Stem> = {
         let json = &include_str!("../json/ganzhi_stems.json");
-        let data: Vec<StemData> = match serde_json::from_str(json) {
-            Ok(json) => json,
-            Err(err) => panic!("Error: {}", err),
-        };
+        let data: Vec<StemData> = get_json::<StemData>(json);
         data.iter().map(|item| {
             let item = item.clone();
             Stem {
                 no: item.no,
-                name: Language {
-                    en: item.name.en,
-                    ja: LanguageDetails::new(&item.name.ja[0], &item.name.ja[1]),
-                    vi: LanguageDetails::new(&item.name.vi[0], &item.name.vi[1]),
-                    zh_cn: LanguageDetails::new(&item.name.zh_cn[0], &item.name.zh_cn[1]),
-                    zh_tw: LanguageDetails::new(&item.name.zh_tw[0], &item.name.zh_tw[1]),
-                },
+                name: item.language_from_data(),
             }
         }).collect()
     };
 
     pub static ref BRANCHES: Vec<Branch> = {
         let json = &include_str!("../json/ganzhi_branches.json");
-        let data: Vec<BranchData> = match serde_json::from_str(json) {
-            Ok(json) => json,
-            Err(err) => panic!("Error: {}", err),
-        };
-
+        let data: Vec<BranchData> = get_json::<BranchData>(json);
         data.iter().map(|item| {
             let item = item.clone();
             Branch {
                 no: item.no,
-                name: Language {
-                    en: item.name.en,
-                    ja: LanguageDetails::new(&item.name.ja[0], &item.name.ja[1]),
-                    vi: LanguageDetails::new(&item.name.vi[0], &item.name.vi[1]),
-                    zh_cn: LanguageDetails::new(&item.name.zh_cn[0], &item.name.zh_cn[1]),
-                    zh_tw: LanguageDetails::new(&item.name.zh_tw[0], &item.name.zh_tw[1]),
-                },
+                name: item.language_from_data(),
+            }
+        }).collect()
+    };
+
+    pub static ref WUXING: Vec<WuXing> = {
+        let json = &include_str!("../json/wuxing.json");
+        let data: Vec<WuXingData> = get_json::<WuXingData>(json);
+        data.iter().map(|item| {
+            let item = item.clone();
+            WuXing {
+                no: item.no,
+                name: item.language_from_data(),
             }
         }).collect()
     };

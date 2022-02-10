@@ -1,0 +1,110 @@
+[
+  {
+    "num": 1,
+    "name": {
+      "en": "kan",
+      "zh_cn": ["坎", "kǎn"],
+      "zh_cn": ["坎", "kǎn"],
+      "ja": ["かん", "kan"],
+      "vi": []
+    },
+    "direction": "n",
+    "element": 4
+  },
+  {
+    "num": 2,
+    "name": {
+      "en": "kun",
+      "zh_cn": ["坤", "kūn"],
+      "zh_tw": ["坤", "kūn"],
+      "ja": ["こん", "kon"],
+      "vi": []
+    },
+    "direction": "sw",
+    "element": 2
+  },
+  {
+    "num": 3,
+    "name": {
+      "en": "zhen",
+      "zh_cn": ["震", "zhèn"],
+      "zh_tw": ["震", "zhèn"],
+      "ja": ["しん", "shin"],
+      "vi": []
+    },
+    "direction": "e",
+    "element": 0
+  },
+  {
+    "num": 4,
+    "name": {
+      "en": "xun",
+      "zh_cn": ["巽", "xùn"],
+      "zh_tw": ["巽", "xùn"],
+      "ja": ["そん", "son"],
+      "vi": []
+    },
+    "direction": "se",
+    "element": 0
+  },
+  {
+    "num": 5,
+    "name": {
+      "en": "zhong",
+      "zh_cn": ["中", "zhōng"],
+      "zh_tw": ["中", "zhōng"],
+      "ja": ["中", "chu"],
+      "vi": []
+    },
+    "direction": "",
+    "element": 2
+  },
+  {
+    "num": 6,
+    "name": {
+      "en": "qian",
+      "zh_cn": ["乾", "qián"],
+      "zh_tw": ["乾", "qián"],
+      "ja": ["けん", "ken"],
+      "vi": []
+    },
+    "direction": "nw",
+    "element": 3
+  },
+  {
+    "num": 7,
+    "name": {
+      "en": "dui",
+      "zh_cn": ["兌", "duì"],
+      "zh_tw": ["兌", "duì"],
+      "ja": ["だ", "da"],
+      "vi": []
+    },
+    "direction": "e",
+    "element": 3
+  },
+  {
+    "num": 8,
+    "name": {
+      "en": "gen",
+      "zh_cn": ["艮", "gèn"],
+      "zh_tw": ["艮", "gèn"],
+      "ja": ["ごん", "gon"],
+      "vi": []
+    },
+    "direction": "ne",
+    "element": 2
+  },
+  {
+    "num": 9,
+    "name": {
+      "en": "li",
+      "zh_cn": ["離", "lí"],
+      "zh_tw": ["離", "lí"],
+      "ja": ["り", "ri"],
+      "vi": []
+    },
+    "direction": "s",
+    "element": 1
+  }
+]
