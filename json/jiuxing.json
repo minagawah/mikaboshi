@@ -57,7 +57,7 @@
   },
   {
     "num": 5,
-    "direction": null,
+    "direction": "",
     "name": {
       "en": "5 Green",
       "zh_cn": ["五黄土星", "wǔ huáng tǔ xīng"],

@@ -1,121 +1,187 @@
 # mikaboshi
 
-## About
+![screenshot](./screenshot.png)
+![screenshot2](./screenshot2.png)
 
-`mikaboshi` provides basic calculations for Chinese astrology, known as _Bazi_.
-The name `mikaboshi` derives from a Marvel character,
-[Amatsu-mikaboshi](https://marvel.fandom.com/wiki/Amatsu-Mikaboshi_(Earth-616)),
-or one of goddesses in Shinto who equates to Lucifer in the west.
-It literally means "the shinning star in the sky".
+## 1. About
+
+__"mikaboshi"__ is a Rust library for 風水 (风水) (_Feng-Shui_) calculations.
+As such, it provides commonly used calculation logic
+for basic Chinese astrological concepts such as:
+
+- [八卦 (Ba-Gua)](./docs/bagua.md)
+- [干支 (Gan-Zhi)](./docs/ganzhi.md)
+- [九星 (Jiu-Xing)](./docs/jiuxing.md)
+- [二十四节气 (Er-Shi-Si Jie-Qi)](./docs/solar_terms.md)
+- [二十四山向 (Er-Shi-Si Shan-Xiang)](./docs/compass.md)
+- [生死衰旺 (Sheng-Si Shuai-Wang)](./docs/shengsi.md)
+
+As you may have noticed that sample codes in
+[samples](./docs/examples/index.md)
+are that of a WASM (WebAssembly) app,
+it does not always have to be a Rust app when using the library.
+It is amazing how you could easily link
+your codes written in Rust to JS apps
+when provided as a WASM app.
+
+The name __"mikaboshi"__ derives from a _Marvel_ character
+_["Amatsu-Mikaboshi"](https://marvel.fandom.com/wiki/Amatsu-Mikaboshi_(Earth-616))_
+or one of the goddesses in _Shinto_. _"Amatsu-Mikaboshi"_ means
+_"The Shinning Star in the Sky"_ when literally translated,
+which reminds us of _Lucifer_ in the west.
+
+This library depends on
+_[sowngwala](https://github.com/minagawah/sowngwala/)_
+for calculating sun's position.
+It also use some structs from
+_[sowngwala](https://github.com/minagawah/sowngwala/)_,
+namely, _`Date`_, _`DateTime`_, _`Time`_, and _`Month`_
+with which you need to specify as arguments for some functions.
+Also, they are re-exported for public use.
+
+__What Makes The Program Tricky?__
+
+So, the library expects you to have
+a Feng-Shui board with 9 boxes drawn on a device screen.
+1 empty box in the middle surrounded by 8 boxes.
+360 divided by 8, makes it 45 degrees for each.  
+See how it goes when pointing "N" (north):
+
+(When pointing "N")  
+1st row &dash;&dash;&gt; "NW", "N", and "NE"  
+2nd row &dash;&dash;&gt; "W", (middle), and "E"  
+3rd row &dash;&dash;&gt; "SW", "S", and "SE"  
+
+![tricky device rotation](./tricky.png)
+
+However, it gets tricky when device rotates.
+Say, the device rotates for 45 degrees clockwise.
+It now points to "NE" (north-east):  
+
+(When pointing "NE")  
+1st row &dash;&dash;&gt; "N", "NE", and "E"  
+2nd row &dash;&dash;&gt; "NW", (middle), and "SE"  
+3rd row &dash;&dash;&gt; "W", "SW", and "S"  
+
+As you can imagine, when the above is expressed in a Rust program,
+we need `Vec` and `HashMap`, and that is why we have
+many `Vec` and `HashMap` as to map variations
+that manifest per compass direction
+(usually 8, but sometimes 9 when center is concerned).
+This is so, not only for compass directions,
+but for Feng-Shui mappings as well.
+Whenever we calculate positions for Feng-Shui elements,
+the positions are provided in `Vec` or `HashMap`
+so that they will have 8 or 9 patterns.
 
 
-## Important
+## 2. Examples
 
-`mikaboshi` depends on
-[sowngwala](https://github.com/minagawah/sowngwala/)
-for many structs and functions.
-When you work with `mikaboshi`, you need some structs from `sowngwala`.
-For some functions in `mikaboshi` expects `DateTime` of `sowngwala` as arguments.
-As such, `mikaboshi` is re-exporting date & time related structs from `sowngwala`:
+[A few examples](./docs/examples/index.md) which may or may not help...
 
-```rust
-pub use sowngwala::time::{
-    Month,
-    Date,
-    Time,
-    DateTime,
-};
+
+## 3. Documentation
+
+You may:
+
+```bash
+cargo doc
 ```
 
-Refer to the source codes of `sowngwala` for specifications:  
-https://github.com/minagawah/sowngwala/blob/main/src/time.rs
+however, you will probably get more from documentations bellow:
 
 
-## Calculation
+### [八卦 (Bagua)](./docs/bagua.md)
 
-- Longitude of the sun is that of 0:00 midnight for the given day
-- Day changes at 0:00 midnight
+- [Bagua](./docs/bagua.md#baguabagua)
+- [BaguaRawData](./docs/bagua.md#baguabaguarawdata)
+- [BAGUA](./docs/bagua.md#baguabagua)
+- [BAGUA_START_NORTH_INDEXES](./docs/bagua.md#baguabagua_start_north_indexes)
+- [BAGUA_START_NORTH](./docs/bagua.md#baguabagua_start_north)
+- [get_bagua_start_north](./docs/bagua.md#baguaget_bagua_start_north)  
 
-## Usage
+### [二十四山向 (Er-Shi-Si Shan-Xiang)](./docs/compass.md)
 
-### `ut_from_local()`
+- [Direction](./docs/compass.md#compassdirection)
+- [TwentyFourType](./docs/compass.md#compasstwentyfourtype)
+- [DIRECTIONS](./docs/compass.md#compassdirections)
+- [OPPOSITE_DIRECTION](./docs/compass.md#compassopposite_direction)
+- [DIRECTION_POSITIONS_IN_CHART](./docs/compass.md#compassdirection_positions_in_chart)
+- [TWENTYFOUR_DIRECTIONS_TO_INDEX](./docs/compass.md#compasstwentyfour_directions_to_index)
+- [TWENTYFOUR_INDEX_TO_DIRECTIONS](./docs/compass.md#compasstwentyfour_index_to_directions)
+- [TWENTYFOUR_ORDER_START_NORTH](./docs/compass.md#compasstwentyfour_order_start_north)
+- [TWENTYFOUR_SECTORS](./docs/compass.md#compasstwentyfour_sectors)
+- [get_direction_positions_in_chart](./docs/compass.md#compassget_direction_positions_in_chart)
+- [get_opposite_direction](./docs/compass.md#compassget_opposite_direction)
+- [get_twentyfour_data_from_direction](./docs/compass.md#compassget_twentyfour_data_from_direction)
+- [get_twentyfour_data_from_index](./docs/compass.md#compassget_twentyfour_data_from_index)
+- [get_twentyfour_direction_from_degrees](./docs/compass.md#compassget_twentyfour_direction_from_degrees)
+- [get_twentyfour_direction_from_direction](./docs/compass.md#compassget_twentyfour_direction_from_direction)
+- [get_twentyfour_direction_from_index](./docs/compass.md#compassget_twentyfour_direction_from_index)
+- [get_twentyfour_index_from_direction](./docs/compass.md#compassget_twentyfour_index_from_direction)  
 
-You may convert your local time into _UT_:
+### [干支 (Gan-Zhi)](./docs/ganzhi.md)
 
-```rust
-use mikaboshi::time::{
-    Month,
-    DateTime,
-    ut_from_local,
-};
+- [Stem](./docs/ganzhi.md#ganzhistem)
+- [Branch](./docs/ganzhi.md#ganzhibranch)
+- [StemRawData](./docs/ganzhi.md#ganzhistemrawdata)
+- [BranchRawData](./docs/ganzhi.md#ganzhibranchrawdata)
+- [GanZhi](./docs/ganzhi.md#ganzhiganzhi)
+- [Bazi](./docs/ganzhi.md#ganzhibazi)
+- [STEMS](./docs/ganzhi.md#ganzhistems)
+- [BRANCHES](./docs/ganzhi.md#ganzhibranches)
+- [GANZHI_SEXAGESIMAL](./docs/ganzhi.md#ganzhiganzhi_sexagesimal)
+- [HOUR_STEM_TABLE](./docs/ganzhi.md#ganzhihour_stem_table)
+- [Bazi::from_local](./docs/ganzhi.md#ganzhibazifrom_local)  
 
-let zone: i8 = 9;
+### [九星 (Jiu-Xing)](./docs/jiuxing.md)
 
-let local = DateTime {
-    year: 2021,
-    month: Month::Jul,
-    day: 7.0,
-    hour: 0,
-    min: 0,
-    sec: 0.0,
-};
+- [JiuXing](./docs/jiuxing.md#jiuxingjiuxing)
+- [JiuXingRawData](./docs/jiuxing.md#jiuxingjiuxingrawdata)
+- [XiaGuaTu](./docs/jiuxing.md#jiuxingxiaguatu)
+- [DIRECTION_TO_JIU_XING](./docs/jiuxing.md#jiuxingdirection_to_jiu_xing)
+- [JIU_XING](./docs/jiuxing.md#jiuxingjiu_xing)
+- [JIU_XING_DI_PAN_POSITIONS](./docs/jiuxing.md#jiuxingjiu_xing_di_pan_positions)
+- [get_jiuxing_dipan_positions_from_direction](./docs/jiuxing.md#jiuxingget_jiuxing_dipan_positions_from_direction)
+- [get_jiuxing_from_index](./docs/jiuxing.md#jiuxingget_jiuxing_from_index)
+- [normalize_jiuxing](./docs/jiuxing.md#jiuxingnormalize_jiuxing)
+- [fly_flying_stars](./docs/jiuxing.md#jiuxingfly_flying_stars)  
+- [get_xiaguatu_from_unpan_index](./docs/jiuxing.md#jiuxingget_xiaguatu_from_unpan_index)  
 
-let ut: DateTime = ut_from_local(&local, zone);
-println!("ut: {:?}", ut);
+### [生死衰旺 (Sheng-Si Shuai-Wang)](./docs/shengsi.md)
 
-// {
-//     year: 2021,
-//     month: Jul,
-//     day: 6.0,
-//     hour: 14,
-//     min: 57,
-//     sec: 17.13778432735566
-// }
-```
+- [ShengSi](./docs/shengsi.md#shengsishengsi)
+- [ShengSiYearlyAlloc](./docs/shengsi.md#shengsishengsiyearalloc)
+- [SHENG_SI](./docs/shengsi.md#shengsisheng_si)
+- [SHENG_SI_ALLOC](./docs/shengsi.md#shengsisheng_si_alloc)
+- [get_shengsi_mapping](./docs/shengsi.md#shengsiget_shengsi_mapping)  
 
-### `Bazi::from_local()`
+### [二十四节气 (Er-Shi-Si Jie-Qi) and 立春 (Li-Chun)](./docs/solar_terms.md)
 
-You can easily calculate for _Bazi_:
+- [get_last_term](./docs/solar_terms.md#solar_termsget_last_term)
+- [get_lichun](./docs/solar_terms.md#solar_termsget_lichun)  
 
-```rust
-use mikaboshi::time::{ Month, DateTime };
-use mikaboshi::ganzhi::{ Bazi, GanZhi };
+### [Planets](./docs/planet.md)
 
-let zone: i8 = 9;
+- [Planet](./docs/planet.md#planet)
+- [PlanetRawData](./docs/planet.md#planetrawdata)
+- [PLANETS](./docs/planet.md#planets)
 
-let lt = DateTime {
-    year: 2021,
-    month: Month::Jul,
-    day: 7.0,
-    hour: 0,
-    min: 0,
-    sec: 0.0,
-};
-let bazi: Bazi = Bazi::from_local(&lt, zone);
+### [Time](./docs/time.md)
 
-let year: GanZhi = bazi.year;
-let month: GanZhi = bazi.month;
-let day: GanZhi = bazi.day;
-let hour: GanZhi = bazi.hour;
+- [Date](./docs/time.md#timedate)
+- [DateTime](./docs/time.md#timedatetime)
+- [Time](./docs/time.md#timetime)
+- [ut_from_local](./docs/time.md#timeut_from_local)  
 
-println!("年: {} ({})", year.alphabet(), year.alphabet_ja());
-println!("月: {} ({})", month.alphabet(), month.alphabet_ja());
-println!("日: {} ({})", day.alphabet(), day.alphabet_ja());
-println!("時: {} ({})", hour.alphabet(), hour.alphabet_ja());
 
-// 年: 辛丑 (かのと・うし)
-// 月: 甲午 (きのえ・うま)
-// 日: 乙卯 (きのと・う)
-// 時: 癸未 (みずのと・ひつじ)
-```
-
-## Test
+## 4. Test
 
 ```
 RUST_BACKTRACE=1 cargo test -vv -- --nocapture
 ```
 
-## Dislaimer
+## 5. Dislaimer
 
 There is absolutely no gurantee about the accuracy of the service,
 information, or calculated results provided by the program,
@@ -127,6 +193,7 @@ for which the author of the program shall not be liable.
 It shall be your own responsibility to ensure the service,
 information, or calculated results meet your specific requirements.
 
-## License
+
+## 6. License
 
 MIT license ([LICENSE](LICENSE))

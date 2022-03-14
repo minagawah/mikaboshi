@@ -55,13 +55,22 @@ pub trait LanguageTrait {
 pub trait NameDataTrait {
     fn name(&self) -> Box<LanguageData>;
 
+    fn language_details(details: &[String]) -> LanguageDetails {
+        if details.is_empty() {
+            LanguageDetails::new("", "")
+        } else {
+            LanguageDetails::new(&details[0], &details[1])
+        }
+    }
+
     fn language_from_data(&self) -> Language {
+        let name = &self.name();
         Language {
             en: self.name().en,
-            ja: LanguageDetails::new(&self.name().ja[0], &self.name().ja[1]),
-            vi: LanguageDetails::new(&self.name().vi[0], &self.name().vi[1]),
-            zh_cn: LanguageDetails::new(&self.name().zh_cn[0], &self.name().zh_cn[1]),
-            zh_tw: LanguageDetails::new(&self.name().zh_tw[0], &self.name().zh_tw[1]),
+            ja: Self::language_details(&name.ja),
+            vi: Self::language_details(&name.vi),
+            zh_cn: Self::language_details(&name.zh_cn),
+            zh_tw: Self::language_details(&name.zh_tw),
         }
     }
 }

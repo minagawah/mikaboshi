@@ -1,6 +1,6 @@
 [package]
 name = "mikaboshi"
-version = "0.4.1"
+version = "0.5.0"
 edition = "2018"
 
 [dependencies]
@@ -13,3 +13,6 @@ sowngwala = { git = "https://github.com/minagawah/sowngwala", version = "0.4.0" 
 
 [dev-dependencies]
 approx_eq = "0.1.8"
+js-sys = "0.3.52"
+wasm-bindgen = { version = "0.2.70", features = ["serde-serialize"] }
+wasm-bindgen-test = "0.3.13"
