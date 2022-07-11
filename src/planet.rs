@@ -19,7 +19,12 @@
 //! it was simply about "Mercury" and not "Venus".
 use serde::{Deserialize, Serialize};
 
-use crate::language::{Language, LanguageData, LanguageTrait, NameDataTrait};
+use crate::language::{
+    Language,
+    LanguageData,
+    LanguageTrait,
+    NameDataTrait,
+};
 use crate::utils::get_json;
 
 /// A struct representing a planet and stores its attributes.

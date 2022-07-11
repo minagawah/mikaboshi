@@ -1,7 +1,3 @@
-/**
- * SVG Pie Drawing
- * https://medium.com/hackernoon/a-simple-pie-chart-in-svg-dbdd653b6936
- */
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { compose, tap } from 'ramda';
 import tw, { css } from 'twin.macro';
@@ -110,8 +106,6 @@ export const FengShuiTwentyFourInfo = () => {
 
         const text = name?.zh_cn?.alphabet || '';
         const text2 = `${direction.toUpperCase()}${sector}`;
-        // console.log(`[fengshui/twentyfour_info] [${i}] (${degrees} degrees)`);
-        // console.log(`[fengshui/twentyfour_info]  --> ${text2}: ${text}`);
 
         return {
           key: gen_code_12(),

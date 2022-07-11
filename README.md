@@ -5,9 +5,15 @@
 
 ## 1. About
 
-__"mikaboshi"__ is a Rust library for 風水 (风水) (_Feng-Shui_) calculations.
-As such, it provides commonly used calculation logic
-for basic Chinese astrological concepts such as:
+__"mikaboshi"__ is a calculation library for Chinese astrology (written in Rust),
+specifically, for _"Feng-Shui"_ (風水 or 风水).
+The name __"mikaboshi"__ derives from a Marvel character
+["Amatsu-Mikaboshi"](https://marvel.fandom.com/wiki/Amatsu-Mikaboshi_(Earth-616)),
+or one of the goddesses in Shinto myth.
+"Amatsu-Mikaboshi" (アマツミカボシ),
+when literally translated, means _"the shinning star in the sky"_.
+
+Supported (Chinese astrological) concepts are:
 
 - [八卦 (Ba-Gua)](./docs/bagua.md)
 - [干支 (Gan-Zhi)](./docs/ganzhi.md)
@@ -16,28 +22,18 @@ for basic Chinese astrological concepts such as:
 - [二十四山向 (Er-Shi-Si Shan-Xiang)](./docs/compass.md)
 - [生死衰旺 (Sheng-Si Shuai-Wang)](./docs/shengsi.md)
 
-As you may have noticed that sample codes in
-[samples](./docs/examples/index.md)
-are that of a WASM (WebAssembly) app,
-it does not always have to be a Rust app when using the library.
-It is amazing how you could easily link
-your codes written in Rust to JS apps
-when provided as a WASM app.
-
-The name __"mikaboshi"__ derives from a _Marvel_ character
-_["Amatsu-Mikaboshi"](https://marvel.fandom.com/wiki/Amatsu-Mikaboshi_(Earth-616))_
-or one of the goddesses in _Shinto_. _"Amatsu-Mikaboshi"_ means
-_"The Shinning Star in the Sky"_ when literally translated,
-which reminds us of _Lucifer_ in the west.
-
 This library depends on
-_[sowngwala](https://github.com/minagawah/sowngwala/)_
+["sowngwala"](https://github.com/minagawah/sowngwala/)
 for calculating sun's position.
-It also use some structs from
-_[sowngwala](https://github.com/minagawah/sowngwala/)_,
-namely, _`Date`_, _`DateTime`_, _`Time`_, and _`Month`_
-with which you need to specify as arguments for some functions.
-Also, they are re-exported for public use.
+For both "mikaboshi" and "sowngwala" use
+[chrono](https://crates.io/crates/chrono)
+for managing date & time.
+
+You may have noticed many examples found in
+[samples](./docs/examples/index.md) are that of WASM apps.
+Yet, it does not mean you need WASM apps.
+It is just that I happen to have a WASM app using the library,
+and was easy for me to share the codes...
 
 __What Makes The Program Tricky?__
 
@@ -77,7 +73,7 @@ so that they will have 8 or 9 patterns.
 
 ## 2. Examples
 
-[A few examples](./docs/examples/index.md) which may or may not help...
+I have a few [examples](./docs/examples/index.md) which may, or may not help...
 
 
 ## 3. Documentation
@@ -88,8 +84,10 @@ You may:
 cargo doc
 ```
 
-however, you will probably get more from documentations bellow:
-
+However, you will probably learn more from the online documentations bellow.  
+Each page provides general descriptions about what they are,
+and also provide some examples.
+You can also explore the actual codes for they contain a lot of _doc tests_.
 
 ### [八卦 (Bagua)](./docs/bagua.md)
 
@@ -99,26 +97,6 @@ however, you will probably get more from documentations bellow:
 - [BAGUA_START_NORTH_INDEXES](./docs/bagua.md#baguabagua_start_north_indexes)
 - [BAGUA_START_NORTH](./docs/bagua.md#baguabagua_start_north)
 - [get_bagua_start_north](./docs/bagua.md#baguaget_bagua_start_north)  
-
-### [二十四山向 (Er-Shi-Si Shan-Xiang)](./docs/compass.md)
-
-- [Direction](./docs/compass.md#compassdirection)
-- [TwentyFourType](./docs/compass.md#compasstwentyfourtype)
-- [DIRECTIONS](./docs/compass.md#compassdirections)
-- [OPPOSITE_DIRECTION](./docs/compass.md#compassopposite_direction)
-- [DIRECTION_POSITIONS_IN_CHART](./docs/compass.md#compassdirection_positions_in_chart)
-- [TWENTYFOUR_DIRECTIONS_TO_INDEX](./docs/compass.md#compasstwentyfour_directions_to_index)
-- [TWENTYFOUR_INDEX_TO_DIRECTIONS](./docs/compass.md#compasstwentyfour_index_to_directions)
-- [TWENTYFOUR_ORDER_START_NORTH](./docs/compass.md#compasstwentyfour_order_start_north)
-- [TWENTYFOUR_SECTORS](./docs/compass.md#compasstwentyfour_sectors)
-- [get_direction_positions_in_chart](./docs/compass.md#compassget_direction_positions_in_chart)
-- [get_opposite_direction](./docs/compass.md#compassget_opposite_direction)
-- [get_twentyfour_data_from_direction](./docs/compass.md#compassget_twentyfour_data_from_direction)
-- [get_twentyfour_data_from_index](./docs/compass.md#compassget_twentyfour_data_from_index)
-- [get_twentyfour_direction_from_degrees](./docs/compass.md#compassget_twentyfour_direction_from_degrees)
-- [get_twentyfour_direction_from_direction](./docs/compass.md#compassget_twentyfour_direction_from_direction)
-- [get_twentyfour_direction_from_index](./docs/compass.md#compassget_twentyfour_direction_from_index)
-- [get_twentyfour_index_from_direction](./docs/compass.md#compassget_twentyfour_index_from_direction)  
 
 ### [干支 (Gan-Zhi)](./docs/ganzhi.md)
 
@@ -148,6 +126,31 @@ however, you will probably get more from documentations bellow:
 - [fly_flying_stars](./docs/jiuxing.md#jiuxingfly_flying_stars)  
 - [get_xiaguatu_from_unpan_index](./docs/jiuxing.md#jiuxingget_xiaguatu_from_unpan_index)  
 
+### [二十四节气 (Er-Shi-Si Jie-Qi) and 立春 (Li-Chun)](./docs/solar_terms.md)
+
+- [get_last_term](./docs/solar_terms.md#solar_termsget_last_term)
+- [get_lichun](./docs/solar_terms.md#solar_termsget_lichun)  
+
+### [二十四山向 (Er-Shi-Si Shan-Xiang)](./docs/compass.md)
+
+- [Direction](./docs/compass.md#compassdirection)
+- [TwentyFourType](./docs/compass.md#compasstwentyfourtype)
+- [DIRECTIONS](./docs/compass.md#compassdirections)
+- [OPPOSITE_DIRECTION](./docs/compass.md#compassopposite_direction)
+- [DIRECTION_POSITIONS_IN_CHART](./docs/compass.md#compassdirection_positions_in_chart)
+- [TWENTYFOUR_DIRECTIONS_TO_INDEX](./docs/compass.md#compasstwentyfour_directions_to_index)
+- [TWENTYFOUR_INDEX_TO_DIRECTIONS](./docs/compass.md#compasstwentyfour_index_to_directions)
+- [TWENTYFOUR_ORDER_START_NORTH](./docs/compass.md#compasstwentyfour_order_start_north)
+- [TWENTYFOUR_SECTORS](./docs/compass.md#compasstwentyfour_sectors)
+- [get_direction_positions_in_chart](./docs/compass.md#compassget_direction_positions_in_chart)
+- [get_opposite_direction](./docs/compass.md#compassget_opposite_direction)
+- [get_twentyfour_data_from_direction](./docs/compass.md#compassget_twentyfour_data_from_direction)
+- [get_twentyfour_data_from_index](./docs/compass.md#compassget_twentyfour_data_from_index)
+- [get_twentyfour_direction_from_degrees](./docs/compass.md#compassget_twentyfour_direction_from_degrees)
+- [get_twentyfour_direction_from_direction](./docs/compass.md#compassget_twentyfour_direction_from_direction)
+- [get_twentyfour_direction_from_index](./docs/compass.md#compassget_twentyfour_direction_from_index)
+- [get_twentyfour_index_from_direction](./docs/compass.md#compassget_twentyfour_index_from_direction)  
+
 ### [生死衰旺 (Sheng-Si Shuai-Wang)](./docs/shengsi.md)
 
 - [ShengSi](./docs/shengsi.md#shengsishengsi)
@@ -156,24 +159,11 @@ however, you will probably get more from documentations bellow:
 - [SHENG_SI_ALLOC](./docs/shengsi.md#shengsisheng_si_alloc)
 - [get_shengsi_mapping](./docs/shengsi.md#shengsiget_shengsi_mapping)  
 
-### [二十四节气 (Er-Shi-Si Jie-Qi) and 立春 (Li-Chun)](./docs/solar_terms.md)
-
-- [get_last_term](./docs/solar_terms.md#solar_termsget_last_term)
-- [get_lichun](./docs/solar_terms.md#solar_termsget_lichun)  
-
 ### [Planets](./docs/planet.md)
 
 - [Planet](./docs/planet.md#planet)
 - [PlanetRawData](./docs/planet.md#planetrawdata)
 - [PLANETS](./docs/planet.md#planets)
-
-### [Time](./docs/time.md)
-
-- [Date](./docs/time.md#timedate)
-- [DateTime](./docs/time.md#timedatetime)
-- [Time](./docs/time.md#timetime)
-- [ut_from_local](./docs/time.md#timeut_from_local)  
-
 
 ## 4. Test
 

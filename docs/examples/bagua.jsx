@@ -1,7 +1,3 @@
-/**
- * SVG Pie Drawing
- * https://medium.com/hackernoon/a-simple-pie-chart-in-svg-dbdd653b6936
- */
 import React, { useRef, useMemo, useEffect, useCallback } from 'react';
 import { compose, tap } from 'ramda';
 import tw, { css } from 'twin.macro';
@@ -119,16 +115,3 @@ export const FengShuiBagua = () => {
     </div>
   );
 };
-
-// const pos = [];
-// pos[0] = get_position(index * RADIAN_45, OUTER_RATIO);
-// pos[1] = get_position(index * RADIAN_45 + RADIAN_45, OUTER_RATIO);
-// pos[2] = get_position(index * RADIAN_45 + RADIAN_45, INNER_RATIO);
-// pos[3] = get_position(index * RADIAN_45, INNER_RATIO);
-//
-// const path = [
-//   `M${pos[0].x},${pos[0].y}`,
-//   `L${pos[1].x},${pos[1].y}`,
-//   `L${pos[2].x},${pos[2].y}`,
-//   `L${pos[3].x},${pos[3].y}`,
-// ].join(' ');

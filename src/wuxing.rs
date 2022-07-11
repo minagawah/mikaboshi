@@ -1,7 +1,12 @@
 //! A module for 五行 (Wu-Xing).
 use serde::{Deserialize, Serialize};
 
-use crate::language::{Language, LanguageData, LanguageTrait, NameDataTrait};
+use crate::language::{
+    Language,
+    LanguageData,
+    LanguageTrait,
+    NameDataTrait,
+};
 use crate::utils::get_json;
 
 /// A struct representing 五行 (Wu-Xing).

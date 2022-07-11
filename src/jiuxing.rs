@@ -63,15 +63,29 @@
 //! [8] 九紫火星 (9 Purple)  
 
 use serde::{Deserialize, Serialize};
-use sowngwala::time::{julian_day, Date};
 use std::collections::HashMap;
 use std::convert::TryInto;
+use chrono::Datelike;
+use chrono::naive::NaiveDate;
+use sowngwala::time::julian_day_from_generic_date;
 
-use crate::compass::{get_opposite_direction, DIRECTIONS, DIRECTION_POSITIONS_IN_CHART};
-use crate::language::{Language, LanguageData, LanguageTrait, NameDataTrait};
+use crate::compass::{
+    get_opposite_direction,
+    DIRECTIONS,
+    DIRECTION_POSITIONS_IN_CHART,
+};
+use crate::language::{
+    Language,
+    LanguageData,
+    LanguageTrait,
+    NameDataTrait,
+};
 use crate::planet::{Planet, PLANETS};
-use crate::utils::{get_json, make_positive};
 use crate::wuxing::{WuXing, WU_XING};
+use crate::utils::{
+    get_json,
+    make_positive,
+};
 
 pub const SAN_YUAN_JIU_YUN_START_YEAR: u16 = 1864;
 
@@ -338,28 +352,31 @@ pub fn normalize_jiuxing(index: i32) -> usize {
 ///
 /// Example:
 /// ```rust
+/// use chrono::NaiveDate;
 /// use mikaboshi::jiuxing::unpan_xing_index;
 /// use mikaboshi::test_mods::DateParams;
-/// use mikaboshi::time::Date;
 /// use wasm_bindgen::prelude::*;
 ///
 /// #[wasm_bindgen]
 /// pub fn xx(current: &JsValue, lichun: &JsValue) -> JsValue {
 ///     let params_1: DateParams = current.into_serde().unwrap();
 ///     let params_2: DateParams = lichun.into_serde().unwrap();
-///     let current = Date::from(&params_1);
-///     let lichun = Date::from(&params_2);
-///     let index: usize = unpan_xing_index(&current, &lichun);
+///     let current = NaiveDate::from(params_1);
+///     let lichun = NaiveDate::from(params_2);
+///     let index: usize = unpan_xing_index(current, lichun);
 ///     JsValue::from_f64(index as f64)
 /// }
-pub fn unpan_xing_index(&current: &Date, &lichun: &Date) -> usize {
-    let year: i16 = if (julian_day(&current) - julian_day(&lichun)) < 0_f64 {
-        current.year - 1
+pub fn unpan_xing_index(current: NaiveDate, lichun: NaiveDate) -> usize {
+    let year: i32 = if (
+        julian_day_from_generic_date(current)
+            - julian_day_from_generic_date(lichun)
+    ) < 0_f64 {
+        current.year() - 1
     } else {
-        current.year
+        current.year()
     };
-    let dt: i16 = year - SAN_YUAN_JIU_YUN_START_YEAR as i16;
-    let norm: i16 = dt % 180;
+    let dt: i32 = year - SAN_YUAN_JIU_YUN_START_YEAR as i32;
+    let norm: i32 = dt % 180;
     (norm / 20) as usize
 }
 

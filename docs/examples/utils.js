@@ -12,8 +12,6 @@ export const fixed =
     return int(n * place) / place;
   };
 
-// export const to_fixed = (n, decimals = 3) => fixed(decimals)(n);
-
 export const capitalize = s => s[0].toUpperCase() + s.slice(1);
 
 export const gen_code_4 = () =>

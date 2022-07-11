@@ -1,16 +1,17 @@
 [package]
-name = ""
+name = "voi-feng-shui"
 version = "0.1.0"
-authors = [""]
+authors = ["Hiroki Minagawa <minagawa@tokyo800.jp>"]
 edition = "2018"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
+chrono = "0.4.19"
 console_error_panic_hook = "^0.1.6"
 js-sys = "0.3.52"
-mikaboshi = { git = "https://github.com/minagawah/mikaboshi", version = "0.5.0" }
+mikaboshi = { git = "https://github.com/minagawah/mikaboshi", version = "0.6.0" }
 serde = { version = "1.0.127", features = ["derive"] }
 wasm-bindgen = { version = "0.2.70", features = ["serde-serialize"] }
 

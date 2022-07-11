@@ -1,7 +1,3 @@
-/**
- * SVG Pie Drawing
- * https://medium.com/hackernoon/a-simple-pie-chart-in-svg-dbdd653b6936
- */
 import React, { useRef, useMemo, useEffect, useCallback } from 'react';
 import { compose, tap } from 'ramda';
 import tw, { css } from 'twin.macro';

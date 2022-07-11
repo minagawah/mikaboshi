@@ -23,23 +23,19 @@ import moment from 'moment';
 import init, {
   // 八卦 (Ba-Gua)
   get_bagua_start_north as wasm_get_bagua_start_north,
-
   // 二十四山向 (Er-Shi Si-Shan Xiang)
   get_twentyfour_direction_from_index as wasm_get_twentyfour_direction_from_index,
   get_twentyfour_direction_from_degrees as wasm_get_twentyfour_direction_from_degrees,
   get_twentyfour_data_from_index as wasm_get_twentyfour_data_from_index,
   get_twentyfour_data_from_direction as wasm_get_twentyfour_data_from_direction,
-
   // 干支 (Gan-Zhi)
   get_bazi as wasm_get_bazi,
   get_lichun as wasm_get_lichun,
-
   // 九星 (Jiu-Xings)
   get_jiuxing_from_index as wasm_get_jiuxing_from_index,
   get_unpan_xing_index as wasm_get_unpan_xing_index,
   get_xiaguatu_from_unpan_index as wasm_get_xiaguatu_from_unpan_index,
   get_jiuxing_dipan_positions_from_direction as wasm_get_jiuxing_dipan_positions_from_direction,
-
   // 生死衰旺 (Sheng-Si Shuai-Wang)
   get_shengsi_mapping as wasm_get_shengsi_mapping,
 } from 'voi-feng-shui';

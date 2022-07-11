@@ -34,18 +34,43 @@
 //! [10] 戌 (Xu)  
 //! [11] 亥 (Hai)  
 
-#[cfg(test)]
-use sowngwala::time::Month;
-
 use serde::{Deserialize, Serialize};
-use sowngwala::time::{
-    julian_day, julian_day_from_ut, modified_julian_day_from_ut, Date, DateTime, Time,
+use chrono::{
+    DateTime,
+    Datelike,
+    Timelike,
+};
+use chrono::offset::{
+    Utc,
+    FixedOffset,
+};
+use chrono::naive::{
+    NaiveDate,
+    NaiveTime,
 };
 
-use crate::language::{Language, LanguageData, LanguageTrait, NameDataTrait};
+use sowngwala::time::{
+    julian_day_from_generic_date,
+    julian_day_from_generic_datetime,
+    modified_julian_day_from_generic_datetime,
+    naive_date_from_generic_datetime,
+    naive_time_from_generic_datetime,
+    utc_from_fixed,
+};
+
+use crate::language::{
+    Language,
+    LanguageData,
+    LanguageTrait,
+    NameDataTrait,
+};
+
 use crate::solar_terms::get_lichun;
-use crate::time::ut_from_local;
-use crate::utils::{get_json, longitude_of_the_sun_from_date};
+
+use crate::utils::{
+    get_json,
+    longitude_of_the_sun_from_generic_date,
+};
 
 /// A struct representing 干 (Gan) or "Stem" and stores its attributes.
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -139,7 +164,12 @@ impl GanZhi<'_> {
 }
 
 impl<'a> Bazi<'a> {
-    fn new(year: GanZhi<'a>, month: GanZhi<'a>, day: GanZhi<'a>, hour: GanZhi<'a>) -> Self {
+    fn new(
+        year: GanZhi<'a>,
+        month: GanZhi<'a>,
+        day: GanZhi<'a>,
+        hour: GanZhi<'a>,
+    ) -> Self {
         Bazi {
             year,
             month,
@@ -152,40 +182,47 @@ impl<'a> Bazi<'a> {
     ///
     /// Example:
     /// ```rust
+    /// use chrono::DateTime;
+    /// use sowngwala::time::build_fixed;
+    /// use chrono::offset::FixedOffset;
     /// use mikaboshi::ganzhi::Bazi;
-    /// use mikaboshi::time::{DateTime, Month};
     /// use wasm_bindgen::prelude::*;
     ///
     /// #[wasm_bindgen]
     /// pub fn get_bazi(params: &JsValue) -> JsValue {
-    ///     let localtime = DateTime {
-    ///        year: 1985,
-    ///        month: Month::Nov,
-    ///        day: 5.0,
-    ///        hour: 1,
-    ///        min: 35,
-    ///        sec: 0.0,
-    ///     };
-    ///     let zone: i8 = 9;
-    ///     JsValue::from_serde(&Bazi::from_local(&localtime, zone)).unwrap()
+    ///   let nanosecond: u32 = 0;
+    ///   let zone: i32 = 9;
+    ///
+    ///   let fixed: DateTime<FixedOffset> =
+    ///       build_fixed(
+    ///           1985, 11, 5, 1, 35, 0, nanosecond, zone,
+    ///       );
+    ///   JsValue::from_serde(
+    ///     &Bazi::from_fixed(fixed)
+    ///   ).unwrap()
     /// }
     /// ```
-    pub fn from_local(lt: &DateTime, zone: i8) -> Bazi {
-        let ut = ut_from_local(lt, zone);
-        println!("ut: {:?}", ut);
+    pub fn from_fixed(fixed: DateTime<FixedOffset>) -> Bazi<'a> {
+        let utc = utc_from_fixed(fixed);
+        let year = get_year_ganzhi(utc);
+        let month = get_month_ganzhi(Box::new(utc), year.stem.num);
+        let day = get_day_ganzhi(Box::new(utc));
+        let hour = get_hour_ganzhi(
+            Box::new(
+                naive_time_from_generic_datetime(fixed)
+            ),
+            day.stem.num
+        );
 
-        let year = get_year_ganzhi(Box::new(ut));
-        let month = get_month_ganzhi(Box::new(ut), year.stem.num);
-        let day = get_day_ganzhi(Box::new(ut));
-        let hour = get_hour_ganzhi(Box::new(Time::from(lt)), day.stem.num);
         Bazi::new(year, month, day, hour)
     }
 
-    pub fn from_ut(ut: &DateTime, t: &Time) -> Bazi<'a> {
-        let year = get_year_ganzhi(Box::new(*ut));
-        let month = get_month_ganzhi(Box::new(*ut), year.stem.num);
-        let day = get_day_ganzhi(Box::new(*ut));
-        let hour = get_hour_ganzhi(Box::new(*t), day.stem.num);
+    pub fn from_utc(utc: DateTime<Utc>, t: NaiveTime) -> Bazi<'a> {
+        let year = get_year_ganzhi(utc);
+        let month = get_month_ganzhi(Box::new(utc), year.stem.num);
+        let day = get_day_ganzhi(Box::new(utc));
+        let hour = get_hour_ganzhi(Box::new(t), day.stem.num);
+
         Bazi::new(year, month, day, hour)
     }
 }
@@ -318,18 +355,22 @@ lazy_static! {
 }
 
 /// Year Ganzhi
-fn get_year_ganzhi(ut: Box<DateTime>) -> GanZhi<'static> {
+fn get_year_ganzhi(utc: DateTime<Utc>) -> GanZhi<'static> {
     // Year Stem and Branch are easily found.
     // However, we must watch out if it is before
     // or after Lichun. The year begins from Lichun,
     // and it belongs to last year if the date
     // is before Lichun.
-    let lichun = get_lichun(ut.year);
 
-    let year = if julian_day_from_ut(&ut) < julian_day(&lichun) {
-        ut.year - 1
+    let lichun: NaiveDate = get_lichun(utc.year());
+
+    let year: i32 =
+        if julian_day_from_generic_datetime(utc)
+        < julian_day_from_generic_date(lichun)
+    {
+        utc.year() - 1
     } else {
-        ut.year
+        utc.year()
     };
 
     // Stem is found from the last digit of the year.
@@ -340,6 +381,7 @@ fn get_year_ganzhi(ut: Box<DateTime>) -> GanZhi<'static> {
         .chars()
         .map(|d| d.to_digit(10).unwrap())
         .collect();
+
     let last = *digits.last().unwrap();
 
     // Brach is found simply if we know the year,
@@ -354,8 +396,15 @@ fn get_year_ganzhi(ut: Box<DateTime>) -> GanZhi<'static> {
 
 /// Month Ganzhi
 #[allow(clippy::boxed_local)]
-fn get_month_ganzhi(ut: Box<DateTime>, year_stem_num: u8) -> GanZhi<'static> {
-    let lng: f64 = longitude_of_the_sun_from_date(&Date::from(&*ut));
+fn get_month_ganzhi(
+    utc: Box<DateTime<Utc>>,
+    year_stem_num: u8,
+) -> GanZhi<'static> {
+    let utc = *utc;
+
+    let lng: f64 = longitude_of_the_sun_from_generic_date(
+        naive_date_from_generic_datetime(utc)
+    );
 
     // Branch is easily found by looking at the longitude of the sun.
     let branch_index: usize = if (315.0..345.0).contains(&lng) {
@@ -411,8 +460,9 @@ fn get_month_ganzhi(ut: Box<DateTime>, year_stem_num: u8) -> GanZhi<'static> {
 
 /// Day Ganzhi
 #[allow(clippy::boxed_local)]
-fn get_day_ganzhi(ut: Box<DateTime>) -> GanZhi<'static> {
-    let mjd: f64 = modified_julian_day_from_ut(&*ut);
+fn get_day_ganzhi(utc: Box<DateTime<Utc>>) -> GanZhi<'static> {
+    let utc = *utc;
+    let mjd: f64 = modified_julian_day_from_generic_datetime(utc);
     let index = ((mjd - 10.0) % 60.0).floor() as usize;
 
     let (stem_id, branch_id) = GANZHI_SEXAGESIMAL[index];
@@ -425,32 +475,32 @@ fn get_day_ganzhi(ut: Box<DateTime>) -> GanZhi<'static> {
 
 /// Hour Ganzhi
 #[allow(clippy::boxed_local)]
-fn get_hour_ganzhi(t: Box<Time>, day_stem_num: u8) -> GanZhi<'static> {
+fn get_hour_ganzhi(t: Box<NaiveTime>, day_stem_num: u8) -> GanZhi<'static> {
     // The branch is easily found by looking at the hour range of the day.
-    let branch_id: usize = if t.hour == 23 || t.hour == 0 {
+    let branch_id: usize = if t.hour() == 23 || t.hour() == 0 {
         0
-    } else if t.hour < 3 {
+    } else if t.hour() < 3 {
         1
-    } else if t.hour <= 4 {
+    } else if t.hour() <= 4 {
         2
-    } else if t.hour <= 6 {
+    } else if t.hour() <= 6 {
         3
-    } else if t.hour <= 8 {
+    } else if t.hour() <= 8 {
         4
-    } else if t.hour <= 10 {
+    } else if t.hour() <= 10 {
         5
-    } else if t.hour <= 12 {
+    } else if t.hour() <= 12 {
         6
-    } else if t.hour <= 14 {
+    } else if t.hour() <= 14 {
         7
-    } else if t.hour <= 16 {
+    } else if t.hour() <= 16 {
         8
-    } else if t.hour <= 18 {
+    } else if t.hour() <= 18 {
         9
-    } else if t.hour <= 20 {
+    } else if t.hour() <= 20 {
         10
     } else {
-        11 // if t.hour <= 22
+        11 // if t.hour() <= 22
     };
 
     // The stem is found by looking at a special table.
@@ -479,6 +529,10 @@ fn get_hour_ganzhi(t: Box<Time>, day_stem_num: u8) -> GanZhi<'static> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use sowngwala::time::{
+        build_fixed,
+        build_utc,
+    };
 
     // TODO: GANZHI_SEXAGESIMAL
 
@@ -495,26 +549,23 @@ mod tests {
     // TODO: HOUR_STEM_TABLE
 
     #[test]
-    fn test_bazi_from_local() {
-        let zone: i8 = 9;
+    fn test_bazi_from_fixed() {
+        let nanosecond: u32 = 137_790_000;
+        let zone: i32 = 9;
 
-        let lt = DateTime {
-            year: 2021,
-            month: Month::Jul,
-            day: 6.0,
-            hour: 14,
-            min: 57,
-            sec: 17.13779,
-        };
+        let fixed: DateTime<FixedOffset> =
+            build_fixed(
+                2021, 7, 6, 14, 57,  17, nanosecond, zone,
+            );
 
-        let bazi: Bazi = Bazi::from_local(&lt, zone);
+        let bazi: Bazi = Bazi::from_fixed(fixed);
 
         let year: GanZhi = bazi.year;
         let month: GanZhi = bazi.month;
         let day: GanZhi = bazi.day;
         let hour: GanZhi = bazi.hour;
 
-        println!("lt: {:?}", lt);
+        println!("fixed: {:?}", fixed);
         println!("年: {} ({})", year.alphabet(), year.alphabet_ja());
         println!("月: {} ({})", month.alphabet(), month.alphabet_ja());
         println!("日: {} ({})", day.alphabet(), day.alphabet_ja());
@@ -527,31 +578,26 @@ mod tests {
     }
 
     #[test]
-    fn test_bazi_from_ut() {
-        let ut = DateTime {
-            year: 2021,
-            month: Month::Jul,
-            day: 6.0,
-            hour: 5,
-            min: 54,
-            sec: 34.27557,
-        };
+    fn test_bazi_from_utc() {
+        let nanosecond: u32 = 275_570_000;
+        let utc: DateTime<Utc> = build_utc(
+            2021, 7, 6, 5, 54, 34, nanosecond
+        );
 
         // Local Time
-        let t = Time {
-            hour: 14,
-            min: 57,
-            sec: 17.13779,
-        };
+        let nanosecond: u32 = 137_790_000;
+        let t = NaiveTime::from_hms_nano(
+            14, 57, 17, nanosecond
+        );
 
-        let bazi: Bazi = Bazi::from_ut(&ut, &t);
+        let bazi: Bazi = Bazi::from_utc(utc, t);
 
         let year: GanZhi = bazi.year;
         let month: GanZhi = bazi.month;
         let day: GanZhi = bazi.day;
         let hour: GanZhi = bazi.hour;
 
-        println!("ut: {:?}", ut);
+        println!("utc: {:?}", utc);
         println!("t: {:?}", t);
 
         println!("年: {} ({})", year.alphabet(), year.alphabet_ja());

@@ -23,11 +23,11 @@ A context provider set to the React app top, and delegates functions provided by
 - [src/components/chart/chart.jsx](chart.jsx)  
 Provides a layout for Feng-Shui chart which contains a several child components such as `src/components/fengshui/jiuxing.jsx`, `src/components/twentyfour.jsx`, and so forth.
 - [src/components/fengshui/bagua_info.jsx](bagua_info.jsx)
-- [src/components/fengshui/bagua.jsx](bagua.jsx)
-- [src/components/fengshui/jiuxing.jsx](jiuxing.jsx)
-- [src/components/fengshui/north.jsx](north.jsx)
-- [src/components/fengshui/twentyfour_info.jsx](twentyfour_info.jsx)
-- [src/components/fengshui/twentyfour.jsx](twentyfour.jsx)
+- [src/pages/fengshui/bagua.jsx](bagua.jsx)
+- [src/pages/fengshui/jiuxing.jsx](jiuxing.jsx)
+- [src/pages/fengshui/north.jsx](north.jsx)
+- [src/pages/fengshui/twentyfour_info.jsx](twentyfour_info.jsx)
+- [src/pages/fengshui/twentyfour.jsx](twentyfour.jsx)
 - [src/lib/utils.js](utils.js)
 
 

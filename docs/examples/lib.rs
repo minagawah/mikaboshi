@@ -1,3 +1,8 @@
+extern crate chrono;
+
+use chrono::Datelike;
+use chrono::naive::NaiveDate;
+
 use mikaboshi::bagua::{get_bagua_start_north as _bagua_start_north, Bagua};
 use mikaboshi::compass::{
     get_direction_positions_in_chart as _direction_positions_in_chart,
@@ -17,17 +22,18 @@ use mikaboshi::jiuxing::{
 };
 use mikaboshi::shengsi::{get_shengsi_mapping as _get_shengsi_mapping, ShengSi};
 use mikaboshi::solar_terms::get_lichun as _get_lichun;
-use mikaboshi::time::{Date, DateTime};
 use std::collections::HashMap;
 use std::convert::{From, TryInto};
 use wasm_bindgen::prelude::*;
 
-// use log::info;
-// use log::Level;
-
 pub mod structs;
 
-use crate::structs::{DateParams, DateTimeParams, ShengSiParams, XiaGuaTuParams};
+use crate::structs::{
+    DateParams,
+    DateTimeParams,
+    ShengSiParams,
+    XiaGuaTuParams,
+};
 
 /// When the `wee_alloc` feature is enabled, use `wee_alloc` as the global allocator.
 #[cfg(feature = "wee_alloc")]
@@ -59,6 +65,28 @@ pub fn get_bagua_start_north(index: usize) -> JsValue {
 // 二十四山向 (Er-Shi Si-Shan Xiang)
 // ================================================================
 
+// *** NOT IN USE ***
+// A simple accessor for getting values in DIRECTION_POSITIONS_IN_CHART.
+#[wasm_bindgen]
+pub fn get_direction_positions_in_chart(direction: &str) -> JsValue {
+    JsValue::from(
+        (match _direction_positions_in_chart(direction) {
+            Some(positions) => positions.to_vec(),
+            _ => Vec::new(),
+        })
+        .into_iter()
+        .map(JsValue::from)
+        .collect::<js_sys::Array>(),
+    )
+}
+
+// *** NOT IN USE ***
+// A simple accessor for getting values in OPPOSITE_DIRECTION.
+#[wasm_bindgen]
+pub fn get_opposite_direction(direction: &str) -> JsValue {
+    JsValue::from(_opposite_direction(direction))
+}
+
 #[wasm_bindgen]
 pub fn get_twentyfour_direction_from_index(index: usize) -> JsValue {
     let dir: &Direction = _twentyfour_direction_from_index(index);
@@ -78,8 +106,6 @@ pub fn get_twentyfour_data_from_index(index: usize) -> JsValue {
 #[wasm_bindgen]
 pub fn get_twentyfour_direction_from_degrees(degrees: f32) -> JsValue {
     let dir: Direction = _twentyfour_direction_from_degrees(degrees);
-    // log(&format!("[wasm] degrees: {}", degrees));
-    // log(&format!("[wasm] dir: {:?}", dir));
     JsValue::from_serde(&dir).unwrap()
 }
 
@@ -100,19 +126,22 @@ pub fn get_twentyfour_data_from_direction(direction: &str, sector: usize) -> JsV
 #[wasm_bindgen]
 pub fn get_bazi(params: &JsValue) -> JsValue {
     let params: DateTimeParams = params.into_serde().unwrap();
-    let localtime = DateTime::from(&params);
-    let zone = params.zone;
-    JsValue::from_serde(&Bazi::from_local(&localtime, zone)).unwrap()
+
+    JsValue::from_serde(
+        &Bazi::from_fixed(
+            params.into()
+        )
+    ).unwrap()
 }
 
 #[wasm_bindgen]
-pub fn get_lichun(year: i16) -> JsValue {
-    // log(&format!("{:?}", year));
-
+pub fn get_lichun(year: i32) -> JsValue {
     let lichun = _get_lichun(year);
     JsValue::from_str(&format!(
         "{:04}-{:02}-{:02}",
-        lichun.year as u16, lichun.month as u8, lichun.day as u8
+        lichun.year(),
+        lichun.month(),
+        lichun.day(),
     ))
 }
 
@@ -130,21 +159,18 @@ pub fn get_jiuxing_from_index(index: usize) -> JsValue {
 pub fn get_unpan_xing_index(current: &JsValue, lichun: &JsValue) -> JsValue {
     let params_1: DateParams = current.into_serde().unwrap();
     let params_2: DateParams = lichun.into_serde().unwrap();
-    // log(&format!("params_1: {:?}", params_1));
-    // log(&format!("params_2: {:?}", params_2));
 
-    let current = Date::from(&params_1);
-    let lichun = Date::from(&params_2);
+    let current = NaiveDate::from(params_1);
+    let lichun = NaiveDate::from(params_2);
 
-    let index: usize = _unpan_xing_index(&current, &lichun);
+    let index: usize = _unpan_xing_index(current, lichun);
+
     JsValue::from_f64(index as f64)
 }
 
 #[wasm_bindgen]
 pub fn get_xiaguatu_from_unpan_index(params: &JsValue) -> JsValue {
     let params: XiaGuaTuParams = params.into_serde().unwrap();
-    // log("[wasm] get_xiaguatu_from_unpan_index()");
-    // log(&format!("[wasm] params: {:?}", params));
 
     let unpan_xing_order: [usize; 9] =
         params
@@ -195,7 +221,6 @@ pub fn get_shengsi_mapping(params: &JsValue) -> JsValue {
         });
 
     let mapping: Vec<Option<&ShengSi>> = _get_shengsi_mapping(unpan_id, &chart);
-    // log(&format!("[wasm] mapping: {:?}", mapping));
 
     JsValue::from_serde(&mapping).unwrap()
 }

@@ -1,9 +1,10 @@
+use chrono::Datelike;
+
 // use core::iter::FromIterator;
 // use std::iter::FromIterator;
 use serde::Deserialize;
 
-use sowngwala::sun::ecliptic_position_of_the_sun_from_date;
-use sowngwala::time::Date;
+use sowngwala::sun::ecliptic_position_of_the_sun_from_generic_date;
 
 pub fn get_json<'a, T: Deserialize<'a>>(json: &'a str) -> Vec<T> {
     match serde_json::from_str(json) {
@@ -39,6 +40,11 @@ pub fn make_positive(step: u32) -> Box<dyn Fn(i32) -> u32> {
     })
 }
 
-pub fn longitude_of_the_sun_from_date(date: &Date) -> f64 {
-    ecliptic_position_of_the_sun_from_date(date).lng
+pub fn longitude_of_the_sun_from_generic_date<T>(date: T) -> f64
+    where T: Datelike,
+          T: std::marker::Copy,
+          T: std::fmt::Debug,
+          T: std::fmt::Display
+{
+    ecliptic_position_of_the_sun_from_generic_date(date).lng
 }

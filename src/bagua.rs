@@ -19,8 +19,17 @@
 //! [7] 離 (Li)  
 use serde::{Deserialize, Serialize};
 
-use crate::language::{Language, LanguageData, LanguageTrait, NameDataTrait};
-use crate::utils::{get_json, make_sort};
+use crate::language::{
+    Language,
+    LanguageData,
+    LanguageTrait,
+    NameDataTrait,
+};
+
+use crate::utils::{
+    get_json,
+    make_sort,
+};
 
 /// A struct representing 卦 (Gua) and stores its attributes.
 #[derive(Debug, Clone, Serialize, Deserialize)]

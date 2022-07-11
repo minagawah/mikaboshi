@@ -203,27 +203,23 @@ in the first column in the first row, which is 甲.
 戌: 甲丙戊庚壬  
 亥: 乙丁己辛癸  
 
-## ganzhi::Bazi::from_local
+## ganzhi::Bazi::from_fixed
 
-Returns `Bazi` from localtime (`DateTime`) and zone (`i8`).
+Returns `Bazi` from localtime (chrono's `DateTime<FixedOffset>`) and zone (`u32`).
 
 Example:
 
 ```rust
-use mikaboshi::time::{ Month, DateTime };
+use chrono::DateTime;
+use chrono::offset::FixedOffset;
 use mikaboshi::ganzhi::{ Bazi, GanZhi };
 
-let zone: i8 = 9;
+let zone: u32 = 9;
+let fixed: DateTime<FixedOffset> = FixedOffset::east(zone * 3600)
+    .ymd(2021, 7, 7)
+    .and_hms(0, 0, 0);
 
-let lt = DateTime {
-    year: 2021,
-    month: Month::Jul,
-    day: 7.0,
-    hour: 0,
-    min: 0,
-    sec: 0.0,
-};
-let bazi: Bazi = Bazi::from_local(&lt, zone);
+let bazi: Bazi = Bazi::from_fixed(fixed, zone);
 
 let year: GanZhi = bazi.year;
 let month: GanZhi = bazi.month;
@@ -244,21 +240,20 @@ println!("時: {} ({})", hour.alphabet(), hour.alphabet_ja());
 Example using `js_sys`:
 
 ```rust
+use chrono::DateTime;
+use chrono::offset::FixedOffset;
 use mikaboshi::ganzhi::Bazi;
-use mikaboshi::time::{DateTime, Month};
 use wasm_bindgen::prelude::*;
     
 #[wasm_bindgen]
 pub fn get_bazi(params: &JsValue) -> JsValue {
-    let localtime = DateTime {
-       year: 1985,
-       month: Month::Nov,
-       day: 5.0,
-       hour: 1,
-       min: 35,
-       sec: 0.0,
-    };
-    let zone: i8 = 9;
-    JsValue::from_serde(&Bazi::from_local(&localtime, zone)).unwrap()
+    let zone: u32 = 9;
+    let fixed: DateTime<FixedOffset> = FixedOffset::east(zone * 3600)
+        .ymd(1985, 11, 5)
+        .and_hms(1, 35, 0);
+
+    JsValue::from_serde(
+      &Bazi::from_fixed(fixed)
+    ).unwrap()
 }
 ```

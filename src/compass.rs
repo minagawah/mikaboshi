@@ -8,7 +8,12 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
 use crate::bagua::{Bagua, BAGUA};
-use crate::ganzhi::{Branch, Stem, BRANCHES, STEMS};
+use crate::ganzhi::{
+    Branch,
+    Stem,
+    BRANCHES,
+    STEMS,
+};
 
 /// 二十四山向 (Er-Shi-Si Shan-Xiang) can be
 /// either 卦 (Gua), 干 (Gan), or 支 (Zhi).

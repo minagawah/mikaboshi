@@ -1,3 +1,5 @@
+extern crate chrono;
+
 #[macro_use]
 extern crate lazy_static;
 
@@ -9,7 +11,6 @@ pub mod language;
 pub mod planet;
 pub mod shengsi;
 pub mod solar_terms;
-pub mod time;
 pub mod utils;
 pub mod wuxing;
 
