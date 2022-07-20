@@ -22,7 +22,7 @@ import React, {
 import moment from 'moment';
 import init, {
   // 八卦 (Ba-Gua)
-  get_bagua_start_north as wasm_get_bagua_start_north,
+  get_gua_compass_order as wasm_get_gua_compass_order,
   // 二十四山向 (Er-Shi Si-Shan Xiang)
   get_twentyfour_direction_from_index as wasm_get_twentyfour_direction_from_index,
   get_twentyfour_direction_from_degrees as wasm_get_twentyfour_direction_from_degrees,
@@ -53,8 +53,6 @@ const WASM_PATH =
     ? 'wasm/voi-feng-shui/voi-feng-shui_bg.wasm'
     : void 0;
 
-// console.log('[useFengShui] WASM_PATH: ', WASM_PATH);
-
 const DATETIME_KEYS = Object.keys(DATETIME_FORMAT);
 const DATE_KEYS = DATETIME_KEYS.filter(
   key =>
@@ -81,7 +79,7 @@ export const has_valid_profile = (p = {}) =>
  * @property {Object} shan_xing
  * @property {Object} xiang_xing
  * @property {Function} update
- * @property {FengShui.FengShuiContext.get_bagua_start_north}
+ * @property {FengShui.FengShuiContext.get_gua_compass_order}
  * @property {FengShui.FengShuiContext.get_direction_positions_in_chart} - NOT IN USE
  * @property {FengShui.FengShuiContext.get_opposite_direction} - NOT IN USE
  * @property {FengShui.FengShuiContext.get_twentyfour_direction_from_index}
@@ -107,7 +105,7 @@ const FengShuiContext = createContext({
   update: noop,
 
   // 八卦 (Ba-Gua)
-  get_bagua_start_north: noop,
+  get_gua_compass_order: noop,
 
   // 二十四山向 (Er-Shi Si-Shan Xiang)
   get_twentyfour_direction_from_index: noop,
@@ -151,16 +149,16 @@ export const FengShuiProvider = props => {
 
   /**
    * A simple accessor for values stored in `BAGUA_START_NORTH`.
-   * @typedef FengShui.FengShuiContext.get_bagua_start_north
+   * @typedef FengShui.FengShuiContext.get_gua_compass_order
    * @function
    */
 
   /**
-   * @type {FengShui.FengShuiContext.get_bagua_start_north}
+   * @type {FengShui.FengShuiContext.get_gua_compass_order}
    */
-  const get_bagua_start_north = useCallback(
+  const get_gua_compass_order = useCallback(
     dir => {
-      return ready && wasm_get_bagua_start_north(dir);
+      return ready && wasm_get_gua_compass_order(dir);
     },
     [ready]
   );
@@ -481,7 +479,7 @@ export const FengShuiProvider = props => {
         shan_xing,
         xiang_xing,
         update,
-        get_bagua_start_north,
+        get_gua_compass_order,
         get_twentyfour_direction_from_index,
         get_twentyfour_direction_from_degrees,
         get_twentyfour_data_from_index,
@@ -528,13 +526,9 @@ export const useFengShuiSync = () => {
     if (p) {
       const t = p.localtime.format('YYYY-MM-DD');
       const dir = `${p.direction}${p.sector}`;
-      // console.log(`[FengShuiContext] (useFengShuiSync) localtime: ${t}`);
-      // console.log(`[FengShuiContext] (useFengShuiSync) dir: ${dir}`);
-
       setHasProfile(true);
       update(p);
     } else {
-      // console.log('[FengShuiContext] No valid profiles...');
       setHasProfile(false);
     }
   }, [ready, profiles]);

@@ -7,7 +7,7 @@
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
-use crate::bagua::{Bagua, BAGUA};
+use crate::bagua::{Gua, BAGUA_LO_SHU_ORDER_WITH_CENTER};
 use crate::ganzhi::{
     Branch,
     Stem,
@@ -18,7 +18,7 @@ use crate::ganzhi::{
 /// 二十四山向 (Er-Shi-Si Shan-Xiang) can be
 /// either 卦 (Gua), 干 (Gan), or 支 (Zhi).
 pub enum TwentyFourType<'a> {
-    Bagua(&'a Bagua),
+    Gua(&'a Gua),
     Stem(&'a Stem),
     Branch(&'a Branch),
 }
@@ -287,7 +287,7 @@ pub const TWENTYFOUR_ORDER_START_NORTH: [(usize, usize); 24] = [
 /// pub fn xx(index: usize) -> JsValue {
 ///     let t_type: TwentyFourType = get_twentyfour_data_from_index(index);
 ///     match t_type {
-///         TwentyFourType::Bagua(bagua) => JsValue::from_serde(bagua).unwrap(),
+///         TwentyFourType::Gua(gua) => JsValue::from_serde(gua).unwrap(),
 ///         TwentyFourType::Stem(stem) => JsValue::from_serde(stem).unwrap(),
 ///         TwentyFourType::Branch(branch) => JsValue::from_serde(branch).unwrap(),
 ///     }
@@ -296,7 +296,7 @@ pub const TWENTYFOUR_ORDER_START_NORTH: [(usize, usize); 24] = [
 pub fn get_twentyfour_data_from_index(index: usize) -> TwentyFourType<'static> {
     let (t_type, t_index) = TWENTYFOUR_ORDER_START_NORTH[index];
     match t_type {
-        0 => TwentyFourType::Bagua(&BAGUA[t_index]),
+        0 => TwentyFourType::Gua(&BAGUA_LO_SHU_ORDER_WITH_CENTER[t_index]),
         1 => TwentyFourType::Stem(&STEMS[t_index]),
         2 => TwentyFourType::Branch(&BRANCHES[t_index]),
         _ => panic!("Unknown type: {}", t_type),
@@ -397,7 +397,7 @@ pub fn get_twentyfour_index_from_direction(direction: &str, sector: usize) -> us
 /// pub fn xx(direction: &str, sector: usize) -> JsValue {
 ///     let t_type: TwentyFourType = get_twentyfour_data_from_direction(direction, sector);
 ///     match t_type {
-///         TwentyFourType::Bagua(bagua) => JsValue::from_serde(bagua).unwrap(),
+///         TwentyFourType::Gua(gua) => JsValue::from_serde(gua).unwrap(),
 ///         TwentyFourType::Stem(stem) => JsValue::from_serde(stem).unwrap(),
 ///         TwentyFourType::Branch(branch) => JsValue::from_serde(branch).unwrap(),
 ///     }

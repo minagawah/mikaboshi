@@ -31,7 +31,7 @@ const fix3 = fixed(3);
 export const FengShuiBaguaInfo = () => {
   const { worldInfo: world } = useWorld();
   const deviceOrientation = useDeviceOrientation();
-  const { ready, get_bagua_start_north } = useFengShui();
+  const { ready, get_gua_compass_order } = useFengShui();
 
   const [boxes, setBoxes] = useState([]);
 
@@ -78,7 +78,7 @@ export const FengShuiBaguaInfo = () => {
     if (ready) {
       setBoxes(
         [...new Array(8)].map((_, index) => {
-          const bagua = get_bagua_start_north(index);
+          const bagua = get_gua_compass_order(index);
           const name = bagua?.name;
           return name
             ? {

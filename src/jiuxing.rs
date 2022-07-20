@@ -1,54 +1,50 @@
-//! At the beginning, the law governing the universe was simple.
-//! Yet, as man acquired the faculty of thought, was it no longer so.
-//! It was not the universe which changed, but was about how man began
-//! to see the universe differently. Thought, after all, is nothing
-//! but reflections of the outer world. In another word, the outer
-//! world we perceive could only be understood via patterns
-//! that are innate to man's thought. Just like "Malkuth" in _Kabbalha_
-//! is about both the earthly kingdom and the man himself,
-//! as ancient Chinese attempted describing patterns in the universe,
-//! they introduced another artificial element "metal"
-//! (or "earth" when it is deployed in actual reality).
-//! For the ancient Chinese, the former is called
-//! 先天八卦 ("the Primordial Heaven"), and the latter,
-//! 後天八卦 ("the Manifested Heaven").
-//! To study the patterns peculiar to each universe, a conventional
-//! board with 8 directions and 1 in the center has been in use,
-//! where "8 Gua" (八卦) are assigned for slots on the board.
-//! However, for many 風水 (Feng-Shui) systems, we are normally
-//! dealing with the latter, or 後天八卦 ("the Manifested Heaven").
+//! 九星 (Jiu-Xing) means "9 stars" in Chinese.
+//! In 風水 (Feng-Shui), 9 boxes are drawn to represent
+//! the spatial condition of the place in concern.
+//! The box in the middle represents where you are,
+//! and 8 boxes which surrounding the middle represent
+//! 8 compass directions. For these 9 boxes, plotted
+//! special symbols, each of which is called, a "Star" (星).
+//! When we say 九星 (Jiu-Xing) in Chinese, "Jiu" means "9",
+//! and "Xing" means a "Star". While 九星 (Jiu-Xing)
+//! has fixed positions (associated with 洛書 (Lo-Shu)),
+//! they change positions over time, and this movement
+//! is called 飞泊 (Fei-Po) or "flying" because of how it
+//! appears to our eyes when they move.
 //!
-//! For 後天八卦 ("the Manifested Heaven") has a specific name
-//! in 玄空飞星風水 (Xuan-Kong Fei-Xing Feng-Shui), and is called
-//! 地盤 (Di-Pan). However, there are 3 more boards in
-//! 玄空飞星風水 (Xuan-Kong Fei-Xing Feng-Shui)
-//! in addition to 地盤 (Di-Pan), namely:
+//! As explained in 八卦 (Ba-Gua) (see: `src/bagua.rs`),
+//! there are 2 worldly systems concerned, namely,
+//! 先天八卦 (or "the Primordial Heaven") and
+//! 後天八卦 (or "the Manifested Heaven"), and we deal
+//! with the latter system when we talk about 風水 (Feng-Shui).
 //!
-//! (1) 運盤 (Un-Pan) (or 天盤 (Tien-Pan))  
-//! (2) 山星 (Shan-Xing)  
-//! (3) 向星 (Xiang-Xing)  
+//! In 玄空飞星風水 (Xuan-Kong Fei-Xing Feng-Shui), there is
+//! a special name given to the latter system, and is called,
+//! 地盤 (Di-Pan). "Di" means "earth", and "Pan" means "board".
+//! So, it is basically a board which is drawn at the bottom
+//! of any Feng-Shui charts. On 地盤 (Di-Pan), 九星 (Jiu-Xing)
+//! are plotted for which the order is fundamentally that of
+//! 洛書 (Lo-Shu) order in 八卦 (Ba-Gua). However, they move
+//! (or "fly") over 地盤 (Di-Pan) as time goes.
+//! In 玄空飞星風水 (Xuan-Kong Fei-Xing Feng-Shui), there are
+//! 3 other boards that are drawn on top of 地盤 (Di-Pan), namely:
+//! 
+//! - 運盤 (Un-Pan) or 天盤 (Tien-Pan)  
+//! - 山星 (Shan-Xing)  
+//! - 向星 (Xiang-Xing)  
 //!
-//! In practice, for all the above 3 boards, 九星 (Jiu-Xing)
-//! or "the Nine Stars" are assigned. While "8 Gua" (八卦)
-//! has fixed positions, 九星 (Jiu-Xing) changes
-//! over time for spatial constraints given.
-//! When their positions change, the movement is called
-//! 飞泊 (Fei-Po) or "flying" because of how it appears
-//! to our eyes when they move.
-//!
-//! For the first board 運盤 (Un-Pan), positions of 九星 (Jiu-Xing)
-//! are determined by building's construction year,
-//! and calculated based on 三元九運 (Sang-Yuan Jiu-Yun)
+//! For 運盤 (Un-Pan), positions of 九星 (Jiu-Xing) are determined
+//! by construction year for the building in concern which is
+//! calculated based on 三元九運 (Sang-Yuan Jiu-Yun),
 //! or "9 Yearly Cycles". We could say that 運盤 (Un-Pan)
-//! essentially describes of the temporal aspect of the building
-//! For 山星 (Shan-Xing) and 向星 (Xiang-Xing) are determined
-//! by spatial aspects of the building, though, temporal aspects
-//! are also associated indirectly in calculations.
+//! essentially describes the temporal aspect.
+//! 山星 (Shan-Xing) and 向星 (Xiang-Xing) are determined
+//! by spatial aspects of the building (however, in actual
+//! calculations, some temporal aspects comes in).
 //!
-//! When 運盤 (Un-Pan), 山星 (Shan-Xing), and 向星 (Xiang-Xing)
-//! are added to 地盤 (Di-Pan) at the bottom, it is called
-//! 下卦図 (Xia-Gua-Tu), or simply referred as
-//! 飞星図 (Fei-Xing-Tu; "the Flying Star Chart").
+//! When these 3 extra boards are placed on top of 地盤 (Di-Pan),
+//! the whole thing is called, 下卦図 (Xia-Gua-Tu), or simply
+//! referred as 飞星図 (Fei-Xing-Tu), or "The Flying Star Chart".
 //!
 //! Jiu-Xing (九星):
 //!

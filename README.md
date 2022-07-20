@@ -5,15 +5,15 @@
 
 ## 1. About
 
-__"mikaboshi"__ is a calculation library for Chinese astrology (written in Rust),
-specifically, for _"Feng-Shui"_ (風水 or 风水).
-The name __"mikaboshi"__ derives from a Marvel character
+__"mikaboshi"__ is a calculation library for Chinese astrology (written in Rust)
+specifically for _Feng-Shui_ (風水 or 风水).
+The name _"mikaboshi"_ derives from a Marvel character
 ["Amatsu-Mikaboshi"](https://marvel.fandom.com/wiki/Amatsu-Mikaboshi_(Earth-616)),
 or one of the goddesses in Shinto myth.
-"Amatsu-Mikaboshi" (アマツミカボシ),
+_"Amatsu-Mikaboshi"_ (アマツミカボシ),
 when literally translated, means _"the shinning star in the sky"_.
 
-Supported (Chinese astrological) concepts are:
+Supported (Chinese astrological) calculations are:
 
 - [八卦 (Ba-Gua)](./docs/bagua.md)
 - [干支 (Gan-Zhi)](./docs/ganzhi.md)
@@ -24,15 +24,15 @@ Supported (Chinese astrological) concepts are:
 
 This library depends on
 ["sowngwala"](https://github.com/minagawah/sowngwala/)
-for calculating sun's position.
-For both "mikaboshi" and "sowngwala" use
+for calculating the sun's position.
+For both _"mikaboshi"_ and _"sowngwala"_ use
 [chrono](https://crates.io/crates/chrono)
 for managing date & time.
 
-You may have noticed many examples found in
+You may have noticed many codes found in
 [samples](./docs/examples/index.md) are that of WASM apps.
 Yet, it does not mean you need WASM apps.
-It is just that I happen to have a WASM app using the library,
+It is just that I happen to have a WASM app using this library,
 and was easy for me to share the codes...
 
 __What Makes The Program Tricky?__
@@ -89,14 +89,18 @@ Each page provides general descriptions about what they are,
 and also provide some examples.
 You can also explore the actual codes for they contain a lot of _doc tests_.
 
-### [八卦 (Bagua)](./docs/bagua.md)
+### [八卦 (Ba-Gua)](./docs/bagua.md)
 
-- [Bagua](./docs/bagua.md#baguabagua)
-- [BaguaRawData](./docs/bagua.md#baguabaguarawdata)
-- [BAGUA](./docs/bagua.md#baguabagua)
-- [BAGUA_START_NORTH_INDEXES](./docs/bagua.md#baguabagua_start_north_indexes)
-- [BAGUA_START_NORTH](./docs/bagua.md#baguabagua_start_north)
-- [get_bagua_start_north](./docs/bagua.md#baguaget_bagua_start_north)  
+- [Gua](./docs/bagua.md#baguagua)
+- [GuaRaw](./docs/bagua.md#baguaguaraw)
+- [BAGUA_LO_SHU_ORDER_WITH_CENTER](./docs/bagua.md#baguabagua_lo_shu_order_with_center)
+- [BAGUA_HE_TU_ORDER_INDEXES](./docs/bagua.md#baguabagua_he_tu_order_indexes)
+- [BAGUA_HE_TU_ORDER](./docs/bagua.md#baguabagua_he_tu_order)
+- [BAGUA_LO_SHU_ORDER_INDEXES](./docs/bagua.md#baguabagua_lo_shu_order_indexes)
+- [BAGUA_LO_SHU_ORDER](./docs/bagua.md#baguabagua_lo_shu_order)
+- [BAGUA_LO_SHU_COMPASS_ORDER_INDEXES](./docs/bagua.md#baguabagua_lo_shu_compass_order_indexes)
+- [BAGUA_LO_SHU_COMPASS_ORDER](./docs/bagua.md#baguabagua_lo_shu_compass_order)
+- [get_gua_compass_order](./docs/bagua.md#baguaget_gua_compass_order)  
 
 ### [干支 (Gan-Zhi)](./docs/ganzhi.md)
 

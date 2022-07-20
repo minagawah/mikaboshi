@@ -1,6 +1,5 @@
 [
   {
-    "num": 1,
     "name": {
       "en": "kan",
       "zh_cn": ["坎", "kǎn"],
@@ -8,11 +7,11 @@
       "ja": ["かん", "kan"],
       "vi": []
     },
+    "jiuxing_num": 1,
     "direction": "n",
     "element": 4
   },
   {
-    "num": 2,
     "name": {
       "en": "kun",
       "zh_cn": ["坤", "kūn"],
@@ -20,11 +19,11 @@
       "ja": ["こん", "kon"],
       "vi": []
     },
+    "jiuxing_num": 2,
     "direction": "sw",
     "element": 2
   },
   {
-    "num": 3,
     "name": {
       "en": "zhen",
       "zh_cn": ["震", "zhèn"],
@@ -32,11 +31,11 @@
       "ja": ["しん", "shin"],
       "vi": []
     },
+    "jiuxing_num": 3,
     "direction": "e",
     "element": 0
   },
   {
-    "num": 4,
     "name": {
       "en": "xun",
       "zh_cn": ["巽", "xùn"],
@@ -44,11 +43,11 @@
       "ja": ["そん", "son"],
       "vi": []
     },
+    "jiuxing_num": 4,
     "direction": "se",
     "element": 0
   },
   {
-    "num": 5,
     "name": {
       "en": "zhong",
       "zh_cn": ["中", "zhōng"],
@@ -56,11 +55,11 @@
       "ja": ["中", "chu"],
       "vi": []
     },
+    "jiuxing_num": 5,
     "direction": "",
     "element": 2
   },
   {
-    "num": 6,
     "name": {
       "en": "qian",
       "zh_cn": ["乾", "qián"],
@@ -68,11 +67,11 @@
       "ja": ["けん", "ken"],
       "vi": []
     },
+    "jiuxing_num": 6,
     "direction": "nw",
     "element": 3
   },
   {
-    "num": 7,
     "name": {
       "en": "dui",
       "zh_cn": ["兌", "duì"],
@@ -80,11 +79,11 @@
       "ja": ["だ", "da"],
       "vi": []
     },
+    "jiuxing_num": 7,
     "direction": "e",
     "element": 3
   },
   {
-    "num": 8,
     "name": {
       "en": "gen",
       "zh_cn": ["艮", "gèn"],
@@ -92,11 +91,11 @@
       "ja": ["ごん", "gon"],
       "vi": []
     },
+    "jiuxing_num": 8,
     "direction": "ne",
     "element": 2
   },
   {
-    "num": 9,
     "name": {
       "en": "li",
       "zh_cn": ["離", "lí"],
@@ -104,6 +103,7 @@
       "ja": ["り", "ri"],
       "vi": []
     },
+    "jiuxing_num": 9,
     "direction": "s",
     "element": 1
   }

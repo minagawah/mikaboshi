@@ -3,7 +3,7 @@ extern crate chrono;
 use chrono::Datelike;
 use chrono::naive::NaiveDate;
 
-use mikaboshi::bagua::{get_bagua_start_north as _bagua_start_north, Bagua};
+use mikaboshi::bagua::{get_gua_compass_order as _gua_compass_order, Gua};
 use mikaboshi::compass::{
     get_direction_positions_in_chart as _direction_positions_in_chart,
     get_opposite_direction as _opposite_direction,
@@ -52,13 +52,13 @@ pub fn main() {
 }
 
 // ================================================================
-// 八卦 (Bagua)
+// 八卦 (Gua)
 // ================================================================
 
 #[wasm_bindgen]
-pub fn get_bagua_start_north(index: usize) -> JsValue {
-    let bagua: Option<&Bagua> = _bagua_start_north(index);
-    JsValue::from_serde(&bagua).unwrap()
+pub fn get_gua_compass_order(index: usize) -> JsValue {
+    let gua: Option<&Gua> = _gua_compass_order(index);
+    JsValue::from_serde(&gua).unwrap()
 }
 
 // ================================================================
@@ -97,7 +97,7 @@ pub fn get_twentyfour_direction_from_index(index: usize) -> JsValue {
 pub fn get_twentyfour_data_from_index(index: usize) -> JsValue {
     let t_type: TwentyFourType = _twentyfour_data_from_index(index);
     match t_type {
-        TwentyFourType::Bagua(bagua) => JsValue::from_serde(bagua).unwrap(),
+        TwentyFourType::Gua(gua) => JsValue::from_serde(gua).unwrap(),
         TwentyFourType::Stem(stem) => JsValue::from_serde(stem).unwrap(),
         TwentyFourType::Branch(branch) => JsValue::from_serde(branch).unwrap(),
     }
@@ -113,7 +113,7 @@ pub fn get_twentyfour_direction_from_degrees(degrees: f32) -> JsValue {
 pub fn get_twentyfour_data_from_direction(direction: &str, sector: usize) -> JsValue {
     let t_type: TwentyFourType = _twentyfour_data_from_direction(direction, sector);
     match t_type {
-        TwentyFourType::Bagua(bagua) => JsValue::from_serde(bagua).unwrap(),
+        TwentyFourType::Gua(gua) => JsValue::from_serde(gua).unwrap(),
         TwentyFourType::Stem(stem) => JsValue::from_serde(stem).unwrap(),
         TwentyFourType::Branch(branch) => JsValue::from_serde(branch).unwrap(),
     }

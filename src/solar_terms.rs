@@ -1,5 +1,6 @@
-//! A module for "二十四节气" (Er-Shi-Si Jie-Qi).
-//! Or, for calculating "立春" (Li-Chun).
+//! A module for 二十四节气 (Er-Shi-Si Jie-Qi).
+//! Or, for calculating 立春 (Li-Chun).
+
 use chrono::Datelike;
 use chrono::naive::NaiveDate;
 use serde::{Deserialize, Serialize};
