@@ -25,7 +25,10 @@ pub struct LanguageData {
 }
 
 impl LanguageDetails {
-    pub fn new(alphabet: &str, phonetic: &str) -> Self {
+    pub fn new(
+        alphabet: &str,
+        phonetic: &str,
+    ) -> Self {
         LanguageDetails {
             alphabet: alphabet.to_string(),
             phonetic: phonetic.to_string(),
@@ -55,11 +58,16 @@ pub trait LanguageTrait {
 pub trait NameDataTrait {
     fn name(&self) -> Box<LanguageData>;
 
-    fn language_details(details: &[String]) -> LanguageDetails {
+    fn language_details(
+        details: &[String],
+    ) -> LanguageDetails {
         if details.is_empty() {
             LanguageDetails::new("", "")
         } else {
-            LanguageDetails::new(&details[0], &details[1])
+            LanguageDetails::new(
+                &details[0],
+                &details[1],
+            )
         }
     }
 
@@ -69,8 +77,12 @@ pub trait NameDataTrait {
             en: self.name().en,
             ja: Self::language_details(&name.ja),
             vi: Self::language_details(&name.vi),
-            zh_cn: Self::language_details(&name.zh_cn),
-            zh_tw: Self::language_details(&name.zh_tw),
+            zh_cn: Self::language_details(
+                &name.zh_cn,
+            ),
+            zh_tw: Self::language_details(
+                &name.zh_tw,
+            ),
         }
     }
 }

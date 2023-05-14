@@ -1,20 +1,17 @@
 //! A module for 二十四节气 (Er-Shi-Si Jie-Qi).
 //! Or, for calculating 立春 (Li-Chun).
 
-use chrono::Datelike;
 use chrono::naive::NaiveDate;
+use chrono::Datelike;
 use serde::{Deserialize, Serialize};
 use sowngwala::time::add_date;
 
 use crate::language::{
-    Language,
-    LanguageData,
-    LanguageTrait,
+    Language, LanguageData, LanguageTrait,
     NameDataTrait,
 };
 use crate::utils::{
-    get_json,
-    longitude_of_the_sun_from_generic_date,
+    get_json, longitude_of_the_sun_from_generic_date,
 };
 
 #[derive(Debug)]
@@ -45,8 +42,10 @@ impl NameDataTrait for SolarTermRawData {
 
 lazy_static! {
     pub static ref SOLAR_TERMS: Vec<SolarTerm> = {
-        let json = &include_str!("../json/solar_terms.json");
-        let data: Vec<SolarTermRawData> = get_json::<SolarTermRawData>(json);
+        let json =
+            &include_str!("../json/solar_terms.json");
+        let data: Vec<SolarTermRawData> =
+            get_json::<SolarTermRawData>(json);
         data.iter()
             .map(|item| {
                 let item = item.clone();
@@ -61,8 +60,11 @@ lazy_static! {
 }
 
 #[allow(clippy::many_single_char_names)]
-pub fn get_last_term(date: NaiveDate) -> (f64, NaiveDate) {
-    let lng_0: f64 = longitude_of_the_sun_from_generic_date(date);
+pub fn get_last_term(
+    date: NaiveDate,
+) -> (f64, NaiveDate) {
+    let lng_0: f64 =
+        longitude_of_the_sun_from_generic_date(date);
     // For the unit of 15, we want the last term.
     // Ex.
     //   317.435511 --> 315.0
@@ -79,7 +81,10 @@ pub fn get_last_term(date: NaiveDate) -> (f64, NaiveDate) {
 
     // Go back by one day a time.
     while term.is_none() {
-        let lng: f64 = longitude_of_the_sun_from_generic_date(next);
+        let lng: f64 =
+            longitude_of_the_sun_from_generic_date(
+                next,
+            );
         // See if the target falls in the current date.
         if lng <= target && lng > (target - 1.0) {
             term = prev;
@@ -121,9 +126,10 @@ mod tests {
 
     #[test]
     fn test_get_last_term() {
-        let (_lng, term): (f64, NaiveDate) = get_last_term(
-            NaiveDate::from_ymd(2022, 2, 6)
-        );
+        let (_lng, term): (f64, NaiveDate) =
+            get_last_term(NaiveDate::from_ymd(
+                2022, 2, 6,
+            ));
         assert_eq!(term.year(), 2022);
         assert_eq!(term.month(), 2);
         assert_eq!(term.day(), 4);

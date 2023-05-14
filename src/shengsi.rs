@@ -1,34 +1,40 @@
-//! 生死衰旺 (Sheng-Si Shuai-Wang) is just a combination
-//! of 4 Chinese characters, each being:
+//! 生死衰旺 (Sheng-Si Shuai-Wang) is just a
+//! combination of 4 Chinese characters, each being:
 //!
 //! (1) Growing --> 生 (Sheng)  
 //! (2) Deadly --> 死 (Si)  
 //! (3) Perishing --> 衰 (Shuai)  
 //! (4) Prosperous --> 旺 (Wang)  
 //!
-//! They are often used in 四柱命理学 (The Four Pillars of Destiny),
-//! but used in Feng-Shui as well. It simply suggests
-//! that there are 4 states to the energy occupying the space.
-//! In 玄空飞星風水 (Xuan-Kong Fei-Xing Feng-Shui),
-//! it describes the state for the target year
-//! in 三元九運 (Sang-Yuan Jiu-Yun),
-//! especially, for its 向星 (Xiang-Xing).
+//! They are often used in 四柱命理学 (The Four Pillars
+//! of Destiny), but used in Feng-Shui as well.
+//! It simply suggests that there are 4 states to
+//! the energy occupying the space. In 玄空飞星風水
+//! (Xuan-Kong Fei-Xing Feng-Shui), it describes
+//! the state for the target year in 三元九運
+//! (Sang-Yuan Jiu-Yun), especially, for its 向星
+//! (Xiang-Xing).
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
 use crate::jiuxing::normalize_jiuxing;
 
-/// A struct representing 生死衰旺 (Sheng-Si Shuai-Wang).
-/// `key` would be: "sheng", "si", "shuai", or "wang".
-#[derive(Debug, Clone, Deserialize, Serialize, PartialEq)]
+/// A struct representing 生死衰旺 (Sheng-Si
+/// Shuai-Wang). `key` would be: "sheng", "si",
+/// "shuai", or "wang".
+#[derive(
+    Debug, Clone, Deserialize, Serialize, PartialEq,
+)]
 pub struct ShengSi<'a> {
     pub key: &'a str,
     pub kanji: &'a str,
     pub meaning: &'a str,
 }
 
-/// A struct holding allocations of 生死衰旺 (Sheng-Si Shuai-Wang) for the given year.
-/// For `usize` (in `Vec<usize>`) is 九星 (Jiu-Xing) index.
+/// A struct holding allocations of 生死衰旺
+/// (Sheng-Si Shuai-Wang) for the given year.
+/// For `usize` (in `Vec<usize>`) is 九星
+/// (Jiu-Xing) index.
 #[derive(Debug, Clone)]
 pub struct ShengSiYearlyAlloc {
     pub wang: Vec<usize>,
@@ -38,7 +44,10 @@ pub struct ShengSiYearlyAlloc {
 }
 
 impl ShengSiYearlyAlloc {
-    pub fn accessor(&self, name: &str) -> Option<&Vec<usize>> {
+    pub fn accessor(
+        &self,
+        name: &str,
+    ) -> Option<&Vec<usize>> {
         match name {
             "wang" => Some(&self.wang),
             "sheng" => Some(&self.sheng),
@@ -50,8 +59,8 @@ impl ShengSiYearlyAlloc {
 }
 
 lazy_static! {
-    /// A HashMap for 生死衰旺 (Sheng-Si Shuai-Wang) by key
-    /// (for each holds `ShengSi`).
+    /// A HashMap for 生死衰旺 (Sheng-Si Shuai-Wang)
+    /// by key (for each holds `ShengSi`).
     pub static ref SHENG_SI: HashMap<&'static str, ShengSi<'static>> = HashMap::from([
         ("sheng", ShengSi { key: "sheng", kanji: "生", meaning: "growth" }),
         ("si", ShengSi { key: "si", kanji: "死", meaning: "death" }),
@@ -59,18 +68,23 @@ lazy_static! {
         ("wang", ShengSi { key: "wang", kanji: "旺", meaning: "prosperous" }),
     ]);
 
-    /// For every year, some 九星 (Jiu-Xing) maybe in 旺 (Wang = Prospering)
-    /// phase, but some maybe in 死 (Si = Dying). 生死衰旺 (Sheng-Si Shuai-Wang)
-    /// for 九星 (Jiu-Xing) is no random, but has certain patterns,
-    /// and is repeated every 9 years. This cycle is called
-    /// 三元九運 (Sang-Yuan Jiu-Yun), and given the 運盤星 (Un-Pan Xing) index
-    /// for the specific year, you can tell of 生死衰旺 (Sheng-Si Shuai-Wang)
-    /// for all the other 九星 (Jiu-Xing). Here, it is constructing
-    /// the patterns for 9 years, and making them into a static vector
-    /// for which each index being the 運盤星 (Un-Pan Xing) index.
-    /// If you know the 運盤星 (Un-Pan Xing) index for the year,
-    /// this static vector will tell you 生死衰旺 (Sheng-Si Shuai-Wang)
-    /// for all 九星 (Jiu-Xing).
+    /// For every year, some 九星 (Jiu-Xing) maybe in
+    /// 旺 (Wang = Prospering) phase, but some maybe
+    /// in 死 (Si = Dying). 生死衰旺 (Sheng-Si
+    /// Shuai-Wang) for 九星 (Jiu-Xing) is no random,
+    /// but has certain patterns, and is repeated every
+    /// 9 years. This cycle is called 三元九運
+    /// (Sang-Yuan Jiu-Yun), and given the 運盤星
+    /// (Un-Pan Xing) index for the specific year, you
+    /// can tell of 生死衰旺 (Sheng-Si Shuai-Wang) for
+    /// all the other 九星 (Jiu-Xing). Here, it is
+    /// constructing the patterns for 9 years, and
+    /// making them into a static vector for which each
+    /// index being the 運盤星 (Un-Pan Xing) index.
+    /// If you know the 運盤星 (Un-Pan Xing) index for
+    /// the year, this static vector will tell you
+    /// 生死衰旺 (Sheng-Si Shuai-Wang) for all 九星
+    /// (Jiu-Xing).
     pub static ref SHENG_SI_ALLOC: Vec<ShengSiYearlyAlloc> = (0..9)
         .map(|i: i32| {
             // 旺 (Wang)
@@ -80,7 +94,7 @@ lazy_static! {
             let sheng: Vec<usize> = [1, 2]
                 .iter()
                 .map(|num| {
-                    normalize_jiuxing((unpan_id + num) as i32)
+                    normalize_jiuxing(unpan_id + num)
                 })
                 .collect::<Vec<usize>>();
 
@@ -88,7 +102,7 @@ lazy_static! {
             let shuai: Vec<usize> = [1, 2]
                 .iter()
                 .map(|num| {
-                    normalize_jiuxing((unpan_id - num) as i32)
+                    normalize_jiuxing(unpan_id - num)
                 })
                 .collect::<Vec<usize>>();
 
@@ -101,25 +115,29 @@ lazy_static! {
                 .collect::<Vec<usize>>();
 
             ShengSiYearlyAlloc {
-                // 運盤星 (Un-Pan Xing) is always the 旺 (wang) for the year.
+                // 運盤星 (Un-Pan Xing) is always the
+                // 旺 (wang) for the year.
                 wang: vec!(unpan_id as usize),
 
-                // Two 九星 (Jiu-Xing) that *proceed* 運盤星 (Un-Pan Xing)
-                // is always the 生 (Sheng).
+                // Two 九星 (Jiu-Xing) that *proceed*
+                // 運盤星 (Un-Pan Xing) is always the
+                // 生 (Sheng).
                 sheng,
 
-                // Two 九星 (Jiu-Xing) that *preceed* 運盤星 (Un-Pan Xing)
-                // is always the 衰 (Shuai). However, there is
-                // an exceptional case when 一白水星 (1 White) were
-                // given for the 運盤星 (Un-Pan Xing) because
-                // it should be converted to 九紫火星 (9 Purple).
+                // Two 九星 (Jiu-Xing) that *preceed*
+                // 運盤星 (Un-Pan Xing) is always the
+                // 衰 (Shuai). However, there is
+                // an exceptional case when 一白水星
+                // (1 White) were given for the 運盤星
+                // (Un-Pan Xing) because it should be
+                // converted to 九紫火星 (9 Purple).
                 shuai: if unpan_id == 0 {
                     vec!(8)
                 } else {
                     shuai
                 },
 
-                // Calculation for 死 (Si) is a bit tricky...
+                // Calculation for 死 (Si) is tricky...
                 si: si
                     .iter()
                     .filter_map(|&index| {
@@ -139,9 +157,10 @@ lazy_static! {
         .collect();
 }
 
-/// Given 運盤 (Un-Pan) index and a layout for the current
-/// 運盤 (Un-Pan) positions (`&[usize; 9]`), returns the corresponding
-/// 生死衰旺 (Sheng-Si Shuai-Wang) situation.
+/// Given 運盤 (Un-Pan) index and a layout for the
+/// current 運盤 (Un-Pan) positions (`&[usize; 9]`),
+/// returns the corresponding 生死衰旺 (Sheng-Si
+/// Shuai-Wang) situation.
 ///
 /// Example:
 /// ```rust
@@ -168,39 +187,45 @@ pub fn get_shengsi_mapping(
     unpan_id: usize,
     unpan_xing_chart: &[usize; 9],
 ) -> Vec<Option<&ShengSi>> {
-    // At first, we will get 生死衰旺 (Sheng-Si Shuai-Wang)
-    // for the given 運盤星 (Un-Pan Xing).
-    let yearly_allocs: &ShengSiYearlyAlloc = &SHENG_SI_ALLOC[unpan_id];
+    // At first, we will get 生死衰旺 (Sheng-Si
+    // Shuai-Wang) for the given 運盤星 (Un-Pan
+    // Xing).
+    let yearly_allocs: &ShengSiYearlyAlloc =
+        &SHENG_SI_ALLOC[unpan_id];
 
     // Now, 生死衰旺 (Sheng-Si Shuai-Wang) just obtained
     // is mapped by "sheng", "si", "shuai", and "wang".
-    // However, we rather want to look up by 九星 (Jiu-Xing) index.
-    // So, we are creating a temporary mapping here.
-    // Though, in the next line, we are just initializing
-    // each in the mapping with `None`.
-    let mut lookup: HashMap<usize, Option<&ShengSi>> = (0..9)
-        .map(|index: usize| (index, None))
-        .into_iter()
-        .collect();
+    // However, we rather want to look up by 九星
+    // (Jiu-Xing) index. So, we are creating a temporary
+    // mapping here. Though, in the next line, we are
+    // just initializing each in the mapping with `None`.
+    let mut lookup: HashMap<usize, Option<&ShengSi>> =
+        (0..9)
+            .map(|index: usize| (index, None))
+            .collect();
 
     // Once the mapping being initialized, we are
     // creating the mapping.
     for key in ["sheng", "si", "shuai", "wang"] {
-        let data: Option<&ShengSi> = SHENG_SI.get(key);
+        let data: Option<&ShengSi> =
+            SHENG_SI.get(key);
 
-        for index in yearly_allocs.accessor(key).unwrap() {
+        for index in
+            yearly_allocs.accessor(key).unwrap()
+        {
             *lookup.get_mut(index).unwrap() = data;
         }
     }
 
-    // We have 運盤 (Un-Pan) chart given. All we want is
-    // to find 生死衰旺 (Sheng-Si Shuai-Wang)
-    // for each  九星 (Jiu-Xing) in the 運盤 (Un-Pan) chart
-    // (using the temporary mapping just created).
+    // We have 運盤 (Un-Pan) chart given. All we want
+    // is to find 生死衰旺 (Sheng-Si Shuai-Wang) for
+    // each  九星 (Jiu-Xing) in the 運盤 (Un-Pan)
+    // chart (using the temporary mapping just created).
     unpan_xing_chart
         .iter()
-        .map(|index: &usize| *lookup.get(index).unwrap())
-        .into_iter()
+        .map(|index: &usize| {
+            *lookup.get(index).unwrap()
+        })
         .collect()
 }
 
@@ -210,7 +235,10 @@ mod tests {
 
     #[test]
     fn test_constant_sheng_si() {
-        assert_eq!(SHENG_SI.get("sheng").unwrap().key, "sheng");
+        assert_eq!(
+            SHENG_SI.get("sheng").unwrap().key,
+            "sheng"
+        );
     }
 
     #[test]
@@ -226,7 +254,10 @@ mod tests {
 
     #[test]
     fn test_get_shengsi_mapping() {
-        let res = get_shengsi_mapping(6, &[2, 0, 4, 7, 6, 5, 8, 3, 1]);
+        let res = get_shengsi_mapping(
+            6,
+            &[2, 0, 4, 7, 6, 5, 8, 3, 1],
+        );
         assert_eq!(res[0].unwrap().key, "si"); // 2
         assert_eq!(res[1], None); // 0
         assert_eq!(res[2].unwrap().key, "shuai"); // 4

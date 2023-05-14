@@ -2,9 +2,7 @@
 use serde::{Deserialize, Serialize};
 
 use crate::language::{
-    Language,
-    LanguageData,
-    LanguageTrait,
+    Language, LanguageData, LanguageTrait,
     NameDataTrait,
 };
 use crate::utils::get_json;
@@ -15,7 +13,8 @@ pub struct WuXing {
     pub name: Language,
 }
 
-/// A temporary struct for loading JSON data when defining a static const `WU_XING`.
+/// A temporary struct for loading JSON data when
+/// defining a static const `WU_XING`.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct WuXingRawData {
     pub name: LanguageData,
@@ -34,9 +33,11 @@ impl NameDataTrait for WuXingRawData {
 }
 
 lazy_static! {
-    /// A static vector with 5 items, each represents 五行 (Wu-Xing).
+    /// A static vector with 5 items, each represents
+    /// 五行 (Wu-Xing).
     ///
-    /// For attributes details stored in the vector is found in JSON file:
+    /// For attributes details stored in the vector is
+    /// found in JSON file:
     /// `src/json/wuxing.json`
     pub static ref WU_XING: Vec<WuXing> = {
         let json = &include_str!("../json/wuxing.json");

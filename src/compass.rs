@@ -1,19 +1,18 @@
-//! A module for compass directions. When dividing 360 degrees into 8,
-//! we get 45 degrees. Ancient Chinese further divided them each into 3
-//! (called "sectors"), each having 15 degrees. Meaning, there are
-//! 24 sectors as a total. This is called, 二十四山向 (Er-Shi-Si Shan-Xiang).
-//! Not only for 8 directions, but these 24 directions (sectors)
-//! are used in Feng-Shui, and this is the module for these directions.
+//! A module for compass directions. When dividing 360
+//! degrees into 8, we get 45 degrees. Ancient Chinese
+//! further divided them each into 3 (called "sectors"),
+//! each having 15 degrees. Meaning, there are 24 sectors
+//! as a total. This is called, 二十四山向 (Er-Shi-Si
+//! Shan-Xiang). Not only for 8 directions, but these
+//! 24 directions (sectors) are used in Feng-Shui, and
+//! this is the module for these directions.
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
-use crate::bagua::{Gua, BAGUA_LO_SHU_ORDER_WITH_CENTER};
-use crate::ganzhi::{
-    Branch,
-    Stem,
-    BRANCHES,
-    STEMS,
+use crate::bagua::{
+    Gua, BAGUA_LO_SHU_ORDER_WITH_CENTER,
 };
+use crate::ganzhi::{Branch, Stem, BRANCHES, STEMS};
 
 /// 二十四山向 (Er-Shi-Si Shan-Xiang) can be
 /// either 卦 (Gua), 干 (Gan), or 支 (Zhi).
@@ -25,14 +24,19 @@ pub enum TwentyFourType<'a> {
 
 /// A struct representing compass direction.
 /// For each direction, there are 3 sectors.
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(
+    Debug, Clone, PartialEq, Serialize, Deserialize,
+)]
 pub struct Direction {
     pub direction: String,
     pub sector: usize,
 }
 
 impl Direction {
-    pub fn new(direction: &str, sector: usize) -> Direction {
+    pub fn new(
+        direction: &str,
+        sector: usize,
+    ) -> Direction {
         Direction {
             direction: direction.to_string(),
             sector,
@@ -41,26 +45,29 @@ impl Direction {
 }
 
 /// An array for 8 directions.
-pub const DIRECTIONS: [&str; 8] = ["n", "ne", "e", "se", "s", "sw", "w", "nw"];
+pub const DIRECTIONS: [&str; 8] =
+    ["n", "ne", "e", "se", "s", "sw", "w", "nw"];
 
 lazy_static! {
     /// A hash map with 9 items.
-    /// Say, we have 9 boxes displayed on a device screen.
-    /// Except for the box in the middle, we have 8 boxes
-    /// around the middle to represent 8 compass directions.
-    /// When facing "n" (north), for the first row,
-    /// we have "nw", "n", and "ne". For the second row,
-    /// we have "w", "", and "e" (where "" being the middle box).
-    /// For the last, we have "sw", "s", and "se".
+    /// Say, we have 9 boxes displayed on a device
+    /// screen. Except for the box in the middle, we
+    /// have 8 boxes around the middle to represent
+    /// 8 compass directions. When facing "n" (north),
+    /// for the first row, we have "nw", "n", and "ne".
+    /// For the second row, we have "w", "", and "e"
+    /// (where "" being the middle box). For the last,
+    /// we have "sw", "s", and "se".
     ///
-    /// [0] nw  [1] n   [2] ne  
-    /// [3] w   [4]     [5] e  
-    /// [6] sw  [7] s   [8] se  
+    /// [0] nw  [1] n   [2] ne
+    /// [3] w   [4]     [5] e
+    /// [6] sw  [7] s   [8] se
     ///
     /// Now, consider when the device rotates.
-    /// Depending on which direction the device is facing,
-    /// we have different labels. For all 8 directions,
-    /// this HashMap provides a map for the positions.
+    /// Depending on which direction the device is
+    /// facing, we have different labels. For all
+    /// 8 directions, this HashMap provides a map for
+    /// the positions.
     pub static ref DIRECTION_POSITIONS_IN_CHART: HashMap<&'static str, [&'static str; 9]> = [
         ("n", ["nw", "n", "ne", "w", "", "e", "sw", "s", "se"]),
         ("ne", ["n", "ne", "e", "nw", "", "se", "w", "sw", "s"]),
@@ -93,7 +100,9 @@ lazy_static! {
 ///     )
 /// }
 /// ```
-pub fn get_direction_positions_in_chart(direction: &str) -> Option<&[&str; 9]> {
+pub fn get_direction_positions_in_chart(
+    direction: &str,
+) -> Option<&[&str; 9]> {
     DIRECTION_POSITIONS_IN_CHART.get(direction)
 }
 
@@ -133,25 +142,27 @@ pub fn get_opposite_direction(dir: &str) -> &str {
     OPPOSITE_DIRECTION[dir]
 }
 
-/// An array with 24 items. Imagine having a circlar disc displayed
-/// on a device screen. When dividing 360 by 8 directions, we get
-/// 45 degrees for each. When each direction is further divided
-/// into 3, then each is called a "sector", and it has 15 degrees
-/// for each "sector". Sectors are placed in clockwise order
+/// An array with 24 items. Imagine having a circlar
+/// disc displayed on a device screen. When dividing 360
+/// by 8 directions, we get 45 degrees for each. When
+/// each direction is further divided into 3, then each
+/// is called a "sector", and it has 15 degrees for each
+/// "sector". Sectors are placed in clockwise order
 /// (left to right) for each direction, so that you see
-/// the sector 1 being placed on your very left. Then, you see
-/// the sector 2 in the middle, and the sector 3 on your right.
-/// Imagine the device pointing north. On the circular disc,
-/// what you see at the very top is the sector 2 of "N" (north),
-/// denoted as "N2". On your left, you see "N1".
-/// On your right, "N3".
+/// the sector 1 being placed on your very left. Then,
+/// you see the sector 2 in the middle, and the sector 3
+/// on your right. Imagine the device pointing north.
+/// On the circular disc, what you see at the very top
+/// is the sector 2 of "N" (north), denoted as "N2".
+/// On your left, you see "N1". On your right, "N3".
 ///
 /// When we want to express all the 24 sectors, we want
-/// an array with 24 items. For the first item in the array [0],
-/// it is convenient to have "N2". Then, for the second item
-/// in the array [1], we want "N3". For [2], we want "NE1".
-/// For [3], we want "NE2". And, so on. As you can imagine,
-/// "N1" comes to the very last in the array, or [23].
+/// an array with 24 items. For the first item in the
+/// array [0], it is convenient to have "N2". Then, for
+/// the second item in the array [1], we want "N3".
+/// For [2], we want "NE1". For [3], we want "NE2".
+/// And, so on. As you can imagine, "N1" comes to the
+/// very last in the array, or [23].
 pub const TWENTYFOUR_SECTORS: [u8; 24] = [
     2, // 0: n
     3, // 1: n
@@ -183,12 +194,12 @@ lazy_static! {
     /// An array with 24 items, for each represents
     /// each in 二十四山向 (Er-Shi-Si Shan-Xiang).
     /// Note, the array begins with "N2"
-    /// (and "N1" is stored at the very last, or [23]).  
-    /// Ex.  
-    /// 0: Direction { direction: "n", sector: 2 }  
-    /// 1: Direction { direction: "n", sector: 3 }  
-    /// 2: Direction { direction: "ne", sector: 1 }  
-    /// 3: Direction { direction: "ne", sector: 2 }  
+    /// (and "N1" is stored at the very last, or [23]).
+    /// Ex.
+    /// 0: Direction { direction: "n", sector: 2 }
+    /// 1: Direction { direction: "n", sector: 3 }
+    /// 2: Direction { direction: "ne", sector: 1 }
+    /// 3: Direction { direction: "ne", sector: 2 }
     pub static ref TWENTYFOUR_INDEX_TO_DIRECTIONS: Vec<Direction> = {
         let mut vec: Vec<Direction> = DIRECTIONS
             .iter()
@@ -221,7 +232,9 @@ lazy_static! {
 ///     JsValue::from_serde(dir).unwrap()
 /// }
 /// ```
-pub fn get_twentyfour_direction_from_index(index: usize) -> &'static Direction {
+pub fn get_twentyfour_direction_from_index(
+    index: usize,
+) -> &'static Direction {
     &TWENTYFOUR_INDEX_TO_DIRECTIONS[index]
 }
 
@@ -229,11 +242,11 @@ lazy_static! {
     /// A HashMap mapping direction (combination of "direction" and "sector")
     /// to the corresponding index.
     ///
-    /// n2: 0  
-    /// n3: 1  
-    /// ne1: 2  
-    /// ne2: 3  
-    /// ...  
+    /// n2: 0
+    /// n3: 1
+    /// ne1: 2
+    /// ne2: 3
+    /// ...
     /// ...
     pub static ref TWENTYFOUR_DIRECTIONS_TO_INDEX: HashMap<String, usize> = TWENTYFOUR_INDEX_TO_DIRECTIONS
         .iter()
@@ -245,11 +258,15 @@ lazy_static! {
         .collect();
 }
 
-/// An array with 24 items, each being a tuple. For each tuple,
-/// the first represents the type of 二十四山向 (Er-Shi-Si Shan-Xiang),
-/// and the second is the index of the type.
-/// The type being: [0] BAGUA, [1] STEM, or [2] BRANCH.
-pub const TWENTYFOUR_ORDER_START_NORTH: [(usize, usize); 24] = [
+/// An array with 24 items, each being a tuple.
+/// For each tuple, the first represents the type of
+/// 二十四山向 (Er-Shi-Si Shan-Xiang), and the second
+/// is the index of the type. The type being:
+/// [0] BAGUA, [1] STEM, or [2] BRANCH.
+pub const TWENTYFOUR_ORDER_START_NORTH: [(
+    usize,
+    usize,
+); 24] = [
     (2, 0),  // 0: [0] 子
     (1, 9),  // 1: [9] 癸
     (2, 1),  // 2: [1] 丑
@@ -276,7 +293,8 @@ pub const TWENTYFOUR_ORDER_START_NORTH: [(usize, usize); 24] = [
     (1, 8),  // 23: [8] 壬
 ];
 
-/// From index, simply returns the corresponding `TwentyFourType`.
+/// From index, simply returns the corresponding
+/// `TwentyFourType`.
 ///
 /// Example:
 /// ```rust
@@ -293,12 +311,19 @@ pub const TWENTYFOUR_ORDER_START_NORTH: [(usize, usize); 24] = [
 ///     }
 /// }
 /// ```
-pub fn get_twentyfour_data_from_index(index: usize) -> TwentyFourType<'static> {
-    let (t_type, t_index) = TWENTYFOUR_ORDER_START_NORTH[index];
+pub fn get_twentyfour_data_from_index(
+    index: usize,
+) -> TwentyFourType<'static> {
+    let (t_type, t_index) =
+        TWENTYFOUR_ORDER_START_NORTH[index];
     match t_type {
-        0 => TwentyFourType::Gua(&BAGUA_LO_SHU_ORDER_WITH_CENTER[t_index]),
+        0 => TwentyFourType::Gua(
+            &BAGUA_LO_SHU_ORDER_WITH_CENTER[t_index],
+        ),
         1 => TwentyFourType::Stem(&STEMS[t_index]),
-        2 => TwentyFourType::Branch(&BRANCHES[t_index]),
+        2 => {
+            TwentyFourType::Branch(&BRANCHES[t_index])
+        }
         _ => panic!("Unknown type: {}", t_type),
     }
 }
@@ -307,7 +332,8 @@ pub fn get_twentyfour_data_from_index(index: usize) -> TwentyFourType<'static> {
 // From **DEGREES**
 // ===========================================================
 
-/// From the given degrees, returns the corresponding `Direction`.
+/// From the given degrees, returns the corresponding
+/// `Direction`.
 ///
 /// Example:
 /// ```rust
@@ -320,7 +346,9 @@ pub fn get_twentyfour_data_from_index(index: usize) -> TwentyFourType<'static> {
 ///     JsValue::from_serde(&dir).unwrap()
 /// }
 /// ```
-pub fn get_twentyfour_direction_from_degrees(d: f32) -> Direction {
+pub fn get_twentyfour_direction_from_degrees(
+    d: f32,
+) -> Direction {
     if !(7.5..352.5).contains(&d) {
         // d >= 352.5 || d < 7.5
         Direction::new("n", 2)
@@ -378,15 +406,23 @@ pub fn get_twentyfour_direction_from_degrees(d: f32) -> Direction {
 // From **DIRECTION**
 // ===========================================================
 
-/// From the given direction and sector, finds the corresponding index
-/// in `TWENTYFOUR_DIRECTIONS_TO_INDEX`
-pub fn get_twentyfour_index_from_direction(direction: &str, sector: usize) -> usize {
+/// From the given direction and sector, finds the
+/// corresponding index in
+/// `TWENTYFOUR_DIRECTIONS_TO_INDEX`
+pub fn get_twentyfour_index_from_direction(
+    direction: &str,
+    sector: usize,
+) -> usize {
     *TWENTYFOUR_DIRECTIONS_TO_INDEX
-        .get(format!("{}{}", direction, sector).as_str())
+        .get(
+            format!("{}{}", direction, sector)
+                .as_str(),
+        )
         .unwrap()
 }
 
-/// From the given direction and sector, returns `TwentyFourType`.
+/// From the given direction and sector, returns
+/// `TwentyFourType`.
 ///
 /// Example:
 /// ```rust
@@ -407,12 +443,23 @@ pub fn get_twentyfour_data_from_direction(
     direction: &str,
     sector: usize,
 ) -> TwentyFourType<'static> {
-    get_twentyfour_data_from_index(get_twentyfour_index_from_direction(direction, sector))
+    get_twentyfour_data_from_index(
+        get_twentyfour_index_from_direction(
+            direction, sector,
+        ),
+    )
 }
 
-/// From the given direction and sector, returns `Direction`.
-pub fn get_twentyfour_direction_from_direction(direction: &str, sector: usize) -> &Direction {
-    &TWENTYFOUR_INDEX_TO_DIRECTIONS[get_twentyfour_index_from_direction(direction, sector)]
+/// From the given direction and sector, returns
+/// `Direction`.
+pub fn get_twentyfour_direction_from_direction(
+    direction: &str,
+    sector: usize,
+) -> &Direction {
+    &TWENTYFOUR_INDEX_TO_DIRECTIONS
+        [get_twentyfour_index_from_direction(
+            direction, sector,
+        )]
 }
 
 #[cfg(test)]
@@ -424,8 +471,15 @@ mod tests {
 
     #[test]
     fn test_get_direction_positions_in_chart() {
-        let exp = ["nw", "n", "ne", "w", "", "e", "sw", "s", "se"];
-        assert_eq!(get_direction_positions_in_chart("n").unwrap(), &exp);
+        let exp = [
+            "nw", "n", "ne", "w", "", "e", "sw", "s",
+            "se",
+        ];
+        assert_eq!(
+            get_direction_positions_in_chart("n")
+                .unwrap(),
+            &exp
+        );
     }
 
     // TODO: OPPOSITE_DIRECTION
@@ -433,7 +487,8 @@ mod tests {
     // TODO: TWENTYFOUR_SECTORS
 
     #[test]
-    fn test_constant_twentyfour_index_to_directions() {
+    fn test_constant_twentyfour_index_to_directions()
+    {
         assert_eq!(
             TWENTYFOUR_INDEX_TO_DIRECTIONS[0],
             Direction {
@@ -449,12 +504,21 @@ mod tests {
             direction: String::from("n"),
             sector: 2,
         };
-        assert_eq!(get_twentyfour_direction_from_index(0), &exp);
+        assert_eq!(
+            get_twentyfour_direction_from_index(0),
+            &exp
+        );
     }
 
     #[test]
-    fn test_constant_twentyfour_directions_to_index() {
-        assert_eq!(*TWENTYFOUR_DIRECTIONS_TO_INDEX.get("n2").unwrap(), 0_usize);
+    fn test_constant_twentyfour_directions_to_index()
+    {
+        assert_eq!(
+            *TWENTYFOUR_DIRECTIONS_TO_INDEX
+                .get("n2")
+                .unwrap(),
+            0_usize
+        );
     }
 
     // Only for test
@@ -471,13 +535,16 @@ mod tests {
 
     #[test]
     fn test_get_twentyfour_data_from_index() {
-        assert!(get_twentyfour_data_from_index(0).is_branch());
+        assert!(get_twentyfour_data_from_index(0)
+            .is_branch());
     }
 
     #[test]
     fn test_get_twentyfour_direction_from_degrees() {
         assert_eq!(
-            get_twentyfour_direction_from_degrees(0_f32),
+            get_twentyfour_direction_from_degrees(
+                0_f32
+            ),
             Direction {
                 direction: String::from("n"),
                 sector: 2,

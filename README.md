@@ -175,7 +175,25 @@ You can also explore the actual codes for they contain a lot of _doc tests_.
 RUST_BACKTRACE=1 cargo test -vv -- --nocapture
 ```
 
-## 5. Dislaimer
+## 5. Notes
+
+### (1) cargo fmt
+
+Looking into [rustfmt.toml](rustfmt.toml),
+you see the setting:
+
+```toml
+format_strings = true
+```
+
+which works only for the Nightly build.  
+So, you need:
+
+```bash
+cargo +nightly fmt
+```
+
+## 6. Dislaimer
 
 There is absolutely no gurantee about the accuracy of the service,
 information, or calculated results provided by the program,
@@ -188,6 +206,6 @@ It shall be your own responsibility to ensure the service,
 information, or calculated results meet your specific requirements.
 
 
-## 6. License
+## 7. License
 
 MIT license ([LICENSE](LICENSE))

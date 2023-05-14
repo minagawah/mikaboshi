@@ -1,14 +1,13 @@
 /**
  * Modules used ONLY from tests.
  */
-use chrono::naive::{
-    NaiveDate,
-    NaiveDateTime,
-};
+use chrono::naive::{NaiveDate, NaiveDateTime};
 use serde::{Deserialize, Serialize};
 use std::convert::From;
 
-#[derive(Serialize, Deserialize, Debug, Copy, Clone)]
+#[derive(
+    Serialize, Deserialize, Debug, Copy, Clone,
+)]
 pub struct DateParams {
     pub year: i32,
     pub month: u32,
@@ -25,7 +24,9 @@ impl From<DateParams> for NaiveDate {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Copy, Clone)]
+#[derive(
+    Serialize, Deserialize, Debug, Copy, Clone,
+)]
 pub struct DateTimeParams {
     pub year: i32,
     pub month: u32,
@@ -34,7 +35,7 @@ pub struct DateTimeParams {
     pub minute: u32,
     pub second: u32,
     pub nanosecond: u32,
-    pub zone: i32
+    pub zone: i32,
 }
 
 impl From<DateTimeParams> for NaiveDateTime {
@@ -43,7 +44,8 @@ impl From<DateTimeParams> for NaiveDateTime {
             params.year,
             params.month,
             params.day,
-        ).and_hms(
+        )
+        .and_hms(
             params.hour,
             params.minute,
             params.second,
