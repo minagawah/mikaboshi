@@ -1,7 +1,26 @@
 # mikaboshi
 
+## IMPORTANT:
+> This repo is **<u>DEPRECATED</u>**.
+> The repo is from 5 years ago  when I had
+> immature understandings about Chinese
+> calendrical calculations.
+>
+> I'm working on another library
+> **["towngach"](https://github.com/minagawah/towngach)**
+> for Chinese calendrical divinations for which
+> you may find logic that are rather decent
+> (although written in JS) on the calendrical calculations.
+
 ![screenshot](./screenshot.png)
 ![screenshot2](./screenshot2.png)
+
+> Again, this repo is **<u>DEPRECATED</u>**.
+> I worked on this when I had no clue about
+> the Chinese calendars. Consider using
+> **["towngach"](https://github.com/minagawah/towngach)**
+> for Chinese calendrical calculations although the library
+> is written in JS and is still in progress.
 
 ## 1. About
 
